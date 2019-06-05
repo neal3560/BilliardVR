@@ -1,0 +1,15 @@
+﻿  pch.cpp
+  Server.cpp
+  Generating code
+  All 940 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+rpc.lib(dispatcher.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(dispatcher.obj)' or at 'C:\Users\weh073\DESKTOP\Billiard\x64\Release\rpc.pdb'; linking object as if no debug info
+rpc.lib(server.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(server.obj)' or at 'C:\Users\weh073\DESKTOP\Billiard\x64\Release\rpc.pdb'; linking object as if no debug info
+rpc.lib(this_handler.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(this_handler.obj)' or at 'C:\Users\weh073\DESKTOP\Billiard\x64\Release\rpc.pdb'; linking object as if no debug info
+rpc.lib(this_session.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(this_session.obj)' or at 'C:\Users\weh073\DESKTOP\Billiard\x64\Release\rpc.pdb'; linking object as if no debug info
+rpc.lib(this_server.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(this_server.obj)' or at 'C:\Users\weh073\DESKTOP\Billiard\x64\Release\rpc.pdb'; linking object as if no debug info
+rpc.lib(server_session.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(server_session.obj)' or at 'C:\Users\weh073\DESKTOP\Billiard\x64\Release\rpc.pdb'; linking object as if no debug info
+rpc.lib(response.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(response.obj)' or at 'C:\Users\weh073\DESKTOP\Billiard\x64\Release\rpc.pdb'; linking object as if no debug info
+rpc.lib(client_error.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(client_error.obj)' or at 'C:\Users\weh073\DESKTOP\Billiard\x64\Release\rpc.pdb'; linking object as if no debug info
+rpc.lib(format.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(format.obj)' or at 'C:\Users\weh073\DESKTOP\Billiard\x64\Release\rpc.pdb'; linking object as if no debug info
+  Server.vcxproj -> C:\Users\weh073\DESKTOP\Billiard\x64\Release\Server.exe

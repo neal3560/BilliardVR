@@ -1,0 +1,20 @@
+File structure:
+Client - Client's vs project files and code files that are only for client-side (Render, input etc)
+
+Server - Server's vs project files and code files that are only for server-side (Simulation, sync etc)
+
+Shared - Code files defining the class/struct/functions that are shared between Client and Server.
+
+Library - 
+Library/include - Header files for third-party library (Here are headers of rpclib)
+Library/lib - *.lib files (static linking files) for third-party library
+
+Project Settings:
+VC++ Directories - Include directory: Add Library/include
+VC++ Directories - Library directory: Add Library/lib
+Linker - Input - Additional Dependencies: Add rpc.lib
+
+Notes: rpc.lib here is compiled with the setting: x64 and Multi-threaded. If you want to copy and use it directly, make sure
+to set your project to x64 and set the project setting - C/C++ - Code Generation - Runtime Library to Multi-threaded (/MT).
+
+
