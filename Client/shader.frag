@@ -20,7 +20,9 @@ void main()
 		fragColor = vec4(0.5f, 0.5f, 0.7f, 0.0f);
 	}else if(mode == 1){
 		fragColor = texture2D(texture2d, TC2);
-	}else{
+	}else if(mode == 2){
 		fragColor = texture(texture3d, TC3);
+	}else{
+		fragColor = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 }

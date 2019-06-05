@@ -23,6 +23,7 @@ public:
 	std::unique_ptr<Cube> table;
 
 	Model * head;
+	Model * ball;
 
 };
 

@@ -119,13 +119,14 @@ Scene::Scene()
 	
 	hand = new Model("models/hand.obj", false);
 	head = new Model("models/sphere.obj", false);
+	ball = new Model("models/sphere.obj", false);
 
 	// 10m wide sky box: size doesn't matter though
 	skybox = std::make_unique<Skybox>("skybox");
 	skybox->toWorld = glm::scale(glm::mat4(1.0f), glm::vec3(5.0f));
 
 	table = std::make_unique<Cube>();
-	table->toWorld = translate(mat4(1.0f), vec3(-0.5f, 0.0f, -1.4f)) * scale(mat4(1.0f), vec3(0.35f, 0.01f, 0.7f));
+	table->toWorld = translate(mat4(1.0f), vec3(0.0f, -0.3f, -1.4f)) * scale(mat4(1.0f), vec3(0.65f, 0.005f, 1.3f));
 	table->mode = 0;
 }
 
@@ -137,9 +138,16 @@ void Scene::render(const mat4& projection, const mat4& view, const mat4 controll
 	//table
 	table->draw(shader, projection, view);
 
+	//ball
+	ball->mode = 3;
+	for (int i = 0; i < sizeof(info.ball_pos) / sizeof(info.ball_pos[0]); i++) {
+		ball->toWorld = translate(mat4(1.0f), info.ball_pos[i]) * translate(mat4(1.0f), vec3(0.0f, -0.295f, -1.4f)) * scale(mat4(1.0f), vec3(0.012f));
+		ball->Draw(shader, projection, view);
+	}
+
 	//opponent
 	head->toWorld = translate(mat4(1.0f), info.head_pos) * scale(mat4(1.0f), vec3(0.04f));
-	head->Draw(shader, projection, view);
+	//head->Draw(shader, projection, view);
 
 	//render the controller
 	hand->toWorld = controller * glm::rotate(mat4(1.0f), 3.14f * 0.5f, vec3(0, 1, 0)) * glm::rotate(mat4(1.0f), 3.14f, vec3(0, 0, 1)) * scale(mat4(1.0f), vec3(0.0022f));
