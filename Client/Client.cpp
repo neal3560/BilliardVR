@@ -135,6 +135,9 @@ Scene::Scene()
 	table = std::make_unique<Cube>();
 	table->toWorld = table_translation * scale(mat4(1.0f), vec3(0.65f, 0.005f, 1.3f));
 	table->mode = 0;
+
+	// stick
+	stick = std::make_unique<Cube>();
 }
 
 void Scene::render(const mat4& projection, const mat4& view, const mat4 controller, const Receive & info)
@@ -182,7 +185,10 @@ void Scene::render(const mat4& projection, const mat4& view, const mat4 controll
 	hand->toWorld = controller * glm::rotate(mat4(1.0f), 3.14f * 0.5f, vec3(0, 1, 0)) * glm::rotate(mat4(1.0f), 3.14f, vec3(0, 0, 1)) * scale(mat4(1.0f), vec3(0.0022f));
 	hand->Draw(shader, projection, view);
 
-
+	// stick
+	stick->mode = 3;
+	stick->toWorld = controller * scale(mat4(1.0f), vec3(0.01f,1.0f,0.01f));
+	stick->draw(shader, projection, view);
 }
 
 

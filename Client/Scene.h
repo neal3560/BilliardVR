@@ -27,6 +27,8 @@ public:
 	Model * ball;
 	Model * pocket;
 
+	std::unique_ptr<Cube> stick;
+
 };
 
 class ExampleApp : public RiftApp {
