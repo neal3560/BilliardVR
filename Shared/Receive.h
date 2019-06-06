@@ -9,6 +9,7 @@ struct Receive
 	
 	glm::vec3 head_pos;
 	glm::vec3 ball_pos[NUMBALL];
+	bool on_table[NUMBALL];
 	//int id;
 	//glm::quat rotation;
 	std::string to_string() {
@@ -30,7 +31,9 @@ struct Receive
 		ball_pos[7].x, ball_pos[7].y, ball_pos[7].z,
 		ball_pos[8].x, ball_pos[8].y, ball_pos[8].z,
 		ball_pos[9].x, ball_pos[9].y, ball_pos[9].z,
-		ball_pos[10].x, ball_pos[10].y, ball_pos[10].z)
+		ball_pos[10].x, ball_pos[10].y, ball_pos[10].z,
+		// on table
+		on_table[0], on_table[1], on_table[2], on_table[3], on_table[4], on_table[5], on_table[6], on_table[7], on_table[8], on_table[9], on_table[10])
 
 
 };

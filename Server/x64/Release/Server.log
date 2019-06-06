@@ -1,8 +1,29 @@
 ﻿  Server.cpp
+c:\users\weh073\desktop\billiard\server\server.cpp(103): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\weh073\desktop\billiard\server\server.cpp(136): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+c:\users\weh073\desktop\billiard\server\server.cpp(141): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+c:\users\weh073\desktop\billiard\server\server.cpp(147): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+c:\users\weh073\desktop\billiard\server\server.cpp(152): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
   Generating code
-  5 of 1142 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
+  10 of 1324 functions ( 0.8%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
 rpc.lib(dispatcher.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(dispatcher.obj)' or at 'C:\Users\weh073\DESKTOP\Billiard\x64\Release\rpc.pdb'; linking object as if no debug info
 rpc.lib(server.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(server.obj)' or at 'C:\Users\weh073\DESKTOP\Billiard\x64\Release\rpc.pdb'; linking object as if no debug info

@@ -21,9 +21,11 @@ public:
 	std::unique_ptr<Skybox> skybox;
 	Model * hand;
 	std::unique_ptr<Cube> table;
+	mat4 table_translation;
 
 	Model * head;
 	Model * ball;
+	Model * pocket;
 
 };
 

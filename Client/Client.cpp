@@ -35,12 +35,7 @@ int player_id = 0;
   }
 
   void ExampleApp::updateState()
-  {	  // ============ call server ===================//
-	  Send self_info;
-	  self_info.head_pos = ovr::toGlm(eyePoses[0].Position);
-	  info = client->call("echo", player_id, self_info).as<Receive>();
-
-	  cout << info.to_string() << endl;
+  {	  
 	  // ==================== button state ========================
 
 	  ovrInputState inputState;
@@ -98,6 +93,15 @@ int player_id = 0;
 	  rightHandPosition = ovr::toGlm(rightHandPoseState.ThePose.Position);
 	  rightHandRotation = ovr::toGlm(ovrQuatf(rightHandPoseState.ThePose.Orientation));
 
+	  // ============ call server ===================//
+	  Send self_info;
+	  self_info.head_pos = ovr::toGlm(eyePoses[0].Position);
+	  self_info.hit = A;
+	  self_info.controller_location = rightHandPosition;
+	  info = client->call("echo", player_id, self_info).as<Receive>();
+
+	  cout << info.to_string() << endl;
+
   }
 
   void ExampleApp::renderScene(const glm::mat4& projection, const glm::mat4& headPose)
@@ -120,18 +124,22 @@ Scene::Scene()
 	hand = new Model("models/hand.obj", false);
 	head = new Model("models/sphere.obj", false);
 	ball = new Model("models/sphere.obj", false);
+	pocket = new Model("models/sphere.obj", false);
+
+	table_translation = translate(mat4(1.0f), vec3(0.0f, -0.3f, -1.3f));
 
 	// 10m wide sky box: size doesn't matter though
 	skybox = std::make_unique<Skybox>("skybox");
 	skybox->toWorld = glm::scale(glm::mat4(1.0f), glm::vec3(5.0f));
 
 	table = std::make_unique<Cube>();
-	table->toWorld = translate(mat4(1.0f), vec3(0.0f, -0.3f, -1.4f)) * scale(mat4(1.0f), vec3(0.65f, 0.005f, 1.3f));
+	table->toWorld = table_translation * scale(mat4(1.0f), vec3(0.65f, 0.005f, 1.3f));
 	table->mode = 0;
 }
 
 void Scene::render(const mat4& projection, const mat4& view, const mat4 controller, const Receive & info)
 {	
+
 	//skybox
 	skybox->draw(shader, projection, view);
 
@@ -139,10 +147,30 @@ void Scene::render(const mat4& projection, const mat4& view, const mat4 controll
 	table->draw(shader, projection, view);
 
 	//ball
-	ball->mode = 3;
+	ball->mode = 4;
 	for (int i = 0; i < sizeof(info.ball_pos) / sizeof(info.ball_pos[0]); i++) {
-		ball->toWorld = translate(mat4(1.0f), info.ball_pos[i]) * translate(mat4(1.0f), vec3(0.0f, -0.295f, -1.4f)) * scale(mat4(1.0f), vec3(0.012f));
-		ball->Draw(shader, projection, view);
+		if (i > 0) {
+			ball->mode = 3;
+		}
+		ball->toWorld = translate(mat4(1.0f), info.ball_pos[i]) * table_translation * translate(mat4(1.0f), vec3(0.0f, 0.005f, 0.0f)) * scale(mat4(1.0f), vec3(0.012f));
+		if (info.on_table[i]) {
+			ball->Draw(shader, projection, view);
+		}
+	}
+
+	//pocket
+	vector<mat4> pocket_translation;
+	pocket_translation.push_back(translate(mat4(1.0f), vec3(-0.65f, 0.01f, -1.3f)));
+	pocket_translation.push_back(translate(mat4(1.0f), vec3(0.65f, 0.01f, -1.3f)));
+	pocket_translation.push_back(translate(mat4(1.0f), vec3(-0.65f, 0.01f, 0.0f)));
+	pocket_translation.push_back(translate(mat4(1.0f), vec3(0.65f, 0.01f, 0.0f)));
+	pocket_translation.push_back(translate(mat4(1.0f), vec3(-0.65f, 0.01f, 1.3f)));
+	pocket_translation.push_back(translate(mat4(1.0f), vec3(0.65f, 0.01f, 1.3f)));
+
+	pocket->mode = 3;
+	for (int i = 0; i < 6; i++) {
+		pocket->toWorld = pocket_translation[i] * table_translation * scale(mat4(1.0f), vec3(0.014f, 0.0001f, 0.017f));
+		pocket->Draw(shader, projection, view);
 	}
 
 	//opponent
@@ -150,6 +178,7 @@ void Scene::render(const mat4& projection, const mat4& view, const mat4 controll
 	//head->Draw(shader, projection, view);
 
 	//render the controller
+	hand->mode = 3;
 	hand->toWorld = controller * glm::rotate(mat4(1.0f), 3.14f * 0.5f, vec3(0, 1, 0)) * glm::rotate(mat4(1.0f), 3.14f, vec3(0, 0, 1)) * scale(mat4(1.0f), vec3(0.0022f));
 	hand->Draw(shader, projection, view);
 
