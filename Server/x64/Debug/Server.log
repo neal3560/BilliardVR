@@ -1,3 +1,0 @@
-﻿  pch.cpp
-  Server.cpp
-c:\users\weh073\desktop\rpcdemo\server\server.cpp(38): error C2065: 'terminated': undeclared identifier

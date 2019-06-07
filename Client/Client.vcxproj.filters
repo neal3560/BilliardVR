@@ -48,10 +48,19 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Shared\Receive.h">
+    <ClInclude Include="..\Shared\ClientData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Shared\Send.h">
+    <ClInclude Include="..\Shared\LocationBall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Shared\RotationBall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Shared\OnTableBall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Shared\PlayerData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

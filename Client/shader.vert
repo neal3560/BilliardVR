@@ -20,11 +20,17 @@ uniform mat4 modelview;
 out vec2 TC2;
 out vec3 TC3;
 
+out vec4 v;
+out vec3 n;
+
 void main()
 {
     // OpenGL maintains the D matrix so you only need to multiply by P, V (aka C inverse), and M
     gl_Position = projection * modelview * vec4(position, 1.0);
+	// texture map
 	TC2 = textUV;
 	TC3 = position;
-
+	// vertex and normal
+	n = normal;
+	v = vec4(position, 1.0f);
 }
