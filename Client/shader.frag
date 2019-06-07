@@ -75,7 +75,7 @@ void main()
 				direction = normalize (position - mypos) ; // no attenuation 
 			}
 			vec3 h = normalize (direction + eyedirn) ;  
-			vec4 col = ComputeLight(direction, lightcolor[i], normal, h, diffuse, specular, 100) ;
+			vec4 col = ComputeLight(direction, lightcolor[i], normal, h, diffuse, specular, 200) ;
 			fragColor += col;
 		}
 	}else if(mode == 2){

@@ -133,6 +133,7 @@ Scene::Scene()
 	// player model
 	hand = new Model("models/hand.obj", false);
 	head = new Model("models/sphere.obj", false);
+	cue = new Model("models/Cue2.obj", false);
 
 	// table model
 	fabric = new Model("models/fabric.obj", false);
@@ -147,6 +148,7 @@ Scene::Scene()
 	transf = translate(mat4(1.0f), vec3(0.0f, -0.6f, 0.0f));
 
 	hand->mode = 3;
+	cue->mode = 1;
 
 	fabric->mode = 1;
 	fabric->toWorld = translate(mat4(1.0f), vec3(0.0f, -0.925f, 0.0f)) * transf * scale(mat4(1.0f), vec3(0.012f));
@@ -157,9 +159,6 @@ Scene::Scene()
 	// 10m wide sky box: size doesn't matter though
 	skybox = std::make_unique<Skybox>("skybox");
 	skybox->toWorld = glm::scale(glm::mat4(1.0f), glm::vec3(5.0f));
-
-	// cue
-	stick = std::make_unique<Cube>();
 
 	// load texture
 	diffuse_fabric = TextureFromFile("Fabric_Diffuse.png", "texture");
@@ -184,6 +183,14 @@ Scene::Scene()
 
 	specular_ball = TextureFromFile("Balls_Glossiness.png", "texture");
 	glActiveTexture(GL_TEXTURE0 + 6);
+	glBindTexture(GL_TEXTURE_2D, specular_ball);
+
+	diffuse_cue = TextureFromFile("Cues_Diffuse.png", "texture");
+	glActiveTexture(GL_TEXTURE0 + 7);
+	glBindTexture(GL_TEXTURE_2D, diffuse_ball);
+
+	specular_cue = TextureFromFile("Cues_Glossiness.png", "texture");
+	glActiveTexture(GL_TEXTURE0 + 8);
 	glBindTexture(GL_TEXTURE_2D, specular_ball);
 
 	
@@ -225,6 +232,21 @@ void Scene::render(const mat4& projection, const mat4& view, const mat4 controll
 		}
 	}
 
+	//cues
+	glActiveTexture(GL_TEXTURE0 + 1);
+	glBindTexture(GL_TEXTURE_2D, diffuse_cue);
+	glActiveTexture(GL_TEXTURE0 + 2);
+	glBindTexture(GL_TEXTURE_2D, specular_cue);
+	glUniform1i(glGetUniformLocation(shader, "texture_diffuse"), 1);
+	glUniform1i(glGetUniformLocation(shader, "texture_specular"), 2);
+	vec3 hands = vec3(controllerL[3]) - vec3(controllerR[3]);
+	vec3 axis = normalize(cross(hands, vec3(0.0f, -1.0f, 0.0f)));
+	float angle = acos(dot(normalize(hands), vec3(0.0f, 1.0f, 0.0f)));
+	mat4 rotation = mat4_cast(angleAxis(angle, axis));
+
+	cue->toWorld = translate(mat4(1.0f), vec3(controllerR[3])) * rotation * scale(mat4(1.0f), vec3(0.012f));
+	cue->Draw(shader, projection, view);
+
 	// render the controller
 	mat4 hand_transf = glm::rotate(mat4(1.0f), 3.14f * 0.5f, vec3(0, 1, 0)) * glm::rotate(mat4(1.0f), 3.14f, vec3(0, 0, 1)) * scale(mat4(1.0f), vec3(0.0022f));
 	mat4 hand_reflection = mat4(-1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
@@ -242,11 +264,6 @@ void Scene::render(const mat4& projection, const mat4& view, const mat4 controll
 	hand->toWorld = playerData.controller_location[1] * playerData.controller_rotation[1] * hand_transf;
 	hand->Draw(shader, projection, view);
 	*/
-
-	// stick
-	//stick->mode = 3;
-	//stick->toWorld = controller * scale(mat4(1.0f), vec3(0.01f,1.0f,0.01f));
-	//stick->draw(shader, projection, view);
 
 	// table
 	glActiveTexture(GL_TEXTURE0 + 1);
@@ -266,22 +283,16 @@ void Scene::render(const mat4& projection, const mat4& view, const mat4 controll
 	base->Draw(shader, projection, view);
 }
 
-
-
 int main()
 {
-
 	int result = -1;
-
 	if (!OVR_SUCCESS(ovr_Initialize(nullptr)))
 	{
 		FAIL("Failed to initialize the Oculus SDK");
 	}
 	result = ExampleApp().run();
-
 	ovr_Shutdown();
 	return result;
-
 }
 
 

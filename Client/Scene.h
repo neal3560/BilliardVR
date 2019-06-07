@@ -34,6 +34,7 @@ public:
 	Model * hand;
 	Model * head;
 	
+	Model * cue;
 	Model * balls[11];
 	Model * fabric;
 	Model * base;
@@ -47,6 +48,9 @@ public:
 
 	int diffuse_ball;
 	int specular_ball;
+
+	int diffuse_cue;
+	int specular_cue;
 
 	//light
 	const float lightposn[NUMLIGHT * 4] = {

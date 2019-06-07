@@ -1,0 +1,108 @@
+﻿  pch.cpp
+  Server.cpp
+c:\users\weh073\desktop\billardvr\server\server.cpp(113): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\weh073\desktop\billardvr\server\server.cpp(146): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\weh073\desktop\billardvr\server\server.cpp(151): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\weh073\desktop\billardvr\server\server.cpp(157): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\weh073\desktop\billardvr\server\server.cpp(162): warning C4305: '=': truncation from 'double' to 'float'
+rpc.lib(dispatcher.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in Server.obj
+rpc.lib(dispatcher.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MT_StaticRelease' doesn't match value 'MTd_StaticDebug' in Server.obj
+rpc.lib(server.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in Server.obj
+rpc.lib(server.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MT_StaticRelease' doesn't match value 'MTd_StaticDebug' in Server.obj
+rpc.lib(response.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in Server.obj
+rpc.lib(response.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MT_StaticRelease' doesn't match value 'MTd_StaticDebug' in Server.obj
+rpc.lib(client_error.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in Server.obj
+rpc.lib(client_error.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MT_StaticRelease' doesn't match value 'MTd_StaticDebug' in Server.obj
+rpc.lib(format.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in Server.obj
+rpc.lib(format.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MT_StaticRelease' doesn't match value 'MTd_StaticDebug' in Server.obj
+rpc.lib(server_session.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in Server.obj
+rpc.lib(server_session.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MT_StaticRelease' doesn't match value 'MTd_StaticDebug' in Server.obj
+rpc.lib(this_handler.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in Server.obj
+rpc.lib(this_handler.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MT_StaticRelease' doesn't match value 'MTd_StaticDebug' in Server.obj
+rpc.lib(this_session.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in Server.obj
+rpc.lib(this_session.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MT_StaticRelease' doesn't match value 'MTd_StaticDebug' in Server.obj
+libcpmtd.lib(locale.obj) : error LNK2001: unresolved external symbol _calloc_dbg
+libcpmtd.lib(wlocale.obj) : error LNK2001: unresolved external symbol _calloc_dbg
+libcpmtd.lib(xlocale.obj) : error LNK2001: unresolved external symbol _calloc_dbg
+Server.obj : error LNK2001: unresolved external symbol _calloc_dbg
+libcpmtd.lib(_tolower.obj) : error LNK2001: unresolved external symbol _calloc_dbg
+libcpmtd.lib(mutex.obj) : error LNK2001: unresolved external symbol _calloc_dbg
+libcpmtd.lib(cond.obj) : error LNK2001: unresolved external symbol _calloc_dbg
+libcpmtd.lib(xlocale.obj) : error LNK2001: unresolved external symbol _free_dbg
+libcpmtd.lib(xwcsxfrm.obj) : error LNK2001: unresolved external symbol _free_dbg
+libcpmtd.lib(StlCompareStringA.obj) : error LNK2001: unresolved external symbol _free_dbg
+libcpmtd.lib(cout.obj) : error LNK2001: unresolved external symbol _free_dbg
+libcpmtd.lib(StlLCMapStringA.obj) : error LNK2001: unresolved external symbol _free_dbg
+libcpmtd.lib(locale.obj) : error LNK2001: unresolved external symbol _free_dbg
+libcpmtd.lib(wlocale.obj) : error LNK2001: unresolved external symbol _free_dbg
+Server.obj : error LNK2001: unresolved external symbol _free_dbg
+libcpmtd.lib(locale0.obj) : error LNK2001: unresolved external symbol _free_dbg
+libcpmtd.lib(mutex.obj) : error LNK2001: unresolved external symbol _free_dbg
+libcpmtd.lib(cond.obj) : error LNK2001: unresolved external symbol _free_dbg
+libcpmtd.lib(StlCompareStringA.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+libcpmtd.lib(locale.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+libcpmtd.lib(wlocale.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+libcpmtd.lib(xlocale.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+libcpmtd.lib(xwcsxfrm.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+Server.obj : error LNK2001: unresolved external symbol _malloc_dbg
+libcpmtd.lib(locale0.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+libcpmtd.lib(cout.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+libcpmtd.lib(StlLCMapStringA.obj) : error LNK2001: unresolved external symbol _malloc_dbg
+libconcrtd.lib(UMSFreeVirtualProcessorRoot.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(UMSFreeThreadProxy.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(SearchAlgorithms.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(location.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(UMSBackgroundPoller.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(VirtualProcessorRoot.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(FreeVirtualProcessorRoot.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(FreeThreadProxy.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(ThreadProxy.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(Transmogrificator.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(TaskCollectionBase.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(WorkQueue.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(Chores.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(ExternalContextBase.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(UMSThreadVirtualProcessor.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(UMSThreadInternalContext.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(TransmogrifiedPrimary.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(SchedulingRing.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(ScheduleGroupBase.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(CacheLocalScheduleGroup.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(FairScheduleGroup.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(InternalContextBase.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(VirtualProcessor.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(SchedulingNode.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(SubAllocator.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(HillClimbing.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(SchedulerProxy.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(WinRTWrapper.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(ThreadProxyFactoryManager.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(ContextBase.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(TaskCollection.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(SchedulerPolicyBase.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(ExecutionResource.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(ResourceManager.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(SchedulerBase.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(UMSWrapper.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(UMSThreadProxy.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(rtlocks.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(event.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(Platform.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libconcrtd.lib(utils.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libcpmtd.lib(wlocale.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libcpmtd.lib(xlocale.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libcpmtd.lib(xmbtowc.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libcpmtd.lib(StlCompareStringA.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libcpmtd.lib(thread0.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libcpmtd.lib(cout.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libcpmtd.lib(StlLCMapStringA.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libcpmtd.lib(locale.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+Server.obj : error LNK2001: unresolved external symbol _CrtDbgReportW
+libcpmtd.lib(stdthrow.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libcpmtd.lib(xonce.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libcpmtd.lib(syserror.obj) : error LNK2001: unresolved external symbol _CrtDbgReportW
+libcpmtd.lib(_tolower.obj) : error LNK2019: unresolved external symbol _wcsdup_dbg referenced in function _Getctype
+libcpmtd.lib(xstrcoll.obj) : error LNK2001: unresolved external symbol _wcsdup_dbg
+libcpmtd.lib(locale.obj) : error LNK2019: unresolved external symbol _realloc_dbg referenced in function "private: static void __cdecl std::locale::_Locimp::_Locimp_Addfac(class std::locale::_Locimp *,class std::locale::facet *,unsigned __int64)" (?_Locimp_Addfac@_Locimp@locale@std@@CAXPEAV123@PEAVfacet@23@_K@Z)
+libconcrtd.lib(SubAllocator.obj) : error LNK2019: unresolved external symbol _CrtIsValidHeapPointer referenced in function "private: bool __cdecl Concurrency::details::SubAllocator::InitAndCheckBlockOnAlloc(union Concurrency::details::AllocationEntry *,unsigned __int64)" (?InitAndCheckBlockOnAlloc@SubAllocator@details@Concurrency@@AEAA_NPEATAllocationEntry@23@_K@Z)
+C:\Users\weh073\DESKTOP\BillardVR\x64\Debug\Server.exe : fatal error LNK1120: 7 unresolved externals
