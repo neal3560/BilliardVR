@@ -14,6 +14,7 @@
 #include "ClientData.h"
 
 
+
 #define NUMLIGHT 3
 #define NUMBALL 11
 
@@ -21,7 +22,8 @@ class Scene {
 
 public:
 	Scene();
-	void render(const mat4& projection, const mat4& view, const mat4 controllerL, const mat4 controllerR, const PlayerData &playerData, vec3 * ball_pos, quat * ball_rot, bool * ball_on);
+	void render(const mat4& projection, const mat4& view, const mat4 controllerL, const mat4 controllerR, const mat4 rotationR, const PlayerData &playerData, 
+		vec3 * ball_pos, quat * ball_rot, bool * ball_on, mat4 & cue_point, bool right_hold, bool left_hand, vec3 player_translate, float rotate_change);
 
 	GLuint shader;
 
@@ -29,7 +31,6 @@ public:
 
 	//models
 	std::unique_ptr<Skybox> skybox;
-	std::unique_ptr<Cube> stick;
 
 	Model * hand;
 	Model * head;
@@ -38,6 +39,9 @@ public:
 	Model * balls[11];
 	Model * fabric;
 	Model * base;
+
+	Cube * floor;
+
 
 	//texture
 	int diffuse_fabric;
@@ -51,6 +55,8 @@ public:
 
 	int diffuse_cue;
 	int specular_cue;
+
+	int diffuse_floor;
 
 	//light
 	const float lightposn[NUMLIGHT * 4] = {
@@ -74,12 +80,15 @@ protected:
 	void initGl() override;
 	void shutdownGl() override;
 	void updateState() override;
-	void renderScene(const glm::mat4& projection, const glm::mat4& headPose) override;
+	void renderScene(const glm::mat4& projection, const ovrPosef & eyePose) override;
+
 
 private:
 	rpc::client *client;
 	std::shared_ptr<Scene> scene;
 
+	vec3 head_pos;
+	quat head_rot;
 	vec3 hand_pos[2];
 	quat hand_rot[2];
 
@@ -88,14 +97,15 @@ private:
 	quat ball_rot[NUMBALL];
 	bool ball_on[NUMBALL];
 
-	bool LT_pre;
-	bool RT_pre;
+	bool right_hand;
+	bool right_index;
+	bool left_hand;
 
-	bool hand_mode;
-	bool freeze_mode;
-	bool debug_mode;
+	// player movement
+	vec3 player_translation;
+	float player_rotation;
 
-	float cube_size;
-	vec3 cube_translation;
+	// cue point
+	mat4 cue_point;
 };
 #endif

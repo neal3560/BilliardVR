@@ -3,21 +3,21 @@
 using namespace std;
 int player_id = 0;
 
+#define CUELENGTH 1.2
+#define MOVESTEP 0.01
+#define ROTATESTEP 0.006
 
   ExampleApp::ExampleApp()
   {
 	  client = new rpc::client("localhost", 3560);
 	  std::cout << "Connected" << std::endl;
 
-	  LT_pre = false;
-	  RT_pre = false;
+	  right_hand = false;
+	  right_index = false;
+	  left_hand = false;
 
-	  hand_mode = false;
-	  freeze_mode = false;
-	  debug_mode = false;
-
-	  cube_translation = vec3(0.0f, 0.0f, 0.0f);
-	  cube_size = 30.0f;
+	  player_translation = vec3(0.0f, 0.0f, 0.0f);
+	  player_rotation = 0.0f;
   }
 
 
@@ -28,6 +28,7 @@ int player_id = 0;
     glEnable(GL_DEPTH_TEST);
     ovr_RecenterTrackingOrigin(_session);
     scene = std::shared_ptr<Scene>(new Scene());
+
   }
 
   void ExampleApp::shutdownGl()
@@ -40,48 +41,48 @@ int player_id = 0;
 	  // ==================== button state ========================
 	  ovrInputState inputState;
 	  ovr_GetInputState(_session, ovrControllerType_Touch, &inputState);
+
 	  // A button
 	  bool A = inputState.Buttons & ovrButton_A;
-	  debug_mode = A;// && hand_mode;
-	  // B button
-	  freeze_mode = inputState.Buttons & ovrButton_B;
+
 	  // right hand trigger
-	  hand_mode = inputState.HandTrigger[ovrHand_Right] > 0.5f;
+	  right_hand = inputState.HandTrigger[ovrHand_Right] > 0.5f;
+	  right_index = inputState.IndexTrigger[ovrHand_Right] > 0.5f;
+	  // left hand
+	  left_hand = inputState.HandTrigger[ovrHand_Left] > 0.5f;
 
-	  // LT Button
-	  bool LT_cur = inputState.Buttons & ovrButton_LThumb;
-	  if (!LT_pre && LT_cur) {
-		  cube_translation = vec3(0.0f, 0.0f, 0.0f);
-	  }
-	  LT_pre = LT_cur;
-
-	  // LT stick
+	  /********************** player movement ***************************/
+	  // move based on user's view
 	  vec2 LT_stick = ovr::toGlm(inputState.Thumbstick[0]);
 	  if (length(LT_stick) < 0.1f) {
 		  LT_stick = vec2(0.0f, 0.0f);
 	  }
-	  cube_translation[0] += LT_stick[0] * 0.03f;
-	  cube_translation[2] -= LT_stick[1] * 0.03f;
-
-	  // RT Button
-	  bool RT_cur = inputState.Buttons & ovrButton_RThumb;
-	  if (!RT_pre && RT_cur) {
-		  cube_size = 30.0f;
+	  vec3 move = mat4_cast(head_rot) * rotate(mat4(1.0f), player_rotation, vec3(0, 1, 0)) * vec4(LT_stick[0], 0, -LT_stick[1], 0);
+	  player_translation.x += move.x * MOVESTEP;
+	  player_translation.z += move.z * MOVESTEP;
+	  // up
+	  if (inputState.Buttons & ovrButton_Y) {
+		  player_translation.y += MOVESTEP;
 	  }
-	  RT_pre = RT_cur;
-
+	  // down
+	  if (inputState.Buttons & ovrButton_X) {
+		  player_translation.y -= MOVESTEP;
+	  }
+	  /********************** player rotatation **************************/
 	  // RT stick
 	  vec2 RT_stick = ovr::toGlm(inputState.Thumbstick[1]);
-	  if (length(RT_stick) < 0.1f) {
-		  RT_stick = vec2(0.0f, 0.0f);
+	  if (RT_stick[0] > 0.3f) {
+		  player_rotation -= ROTATESTEP;
 	  }
-	  cube_translation[1] += RT_stick[1] * 0.03f;
-	  float cube_size_changed = cube_size + RT_stick[0] * 0.5f;
-	  if (cube_size_changed > 1.0f && cube_size_changed < 100.0f) {
-		  cube_size = cube_size_changed;
+	  if (RT_stick[0] < -0.3f) {
+		  player_rotation += ROTATESTEP;
 	  }
 
-	  // ================= controller location ==================
+	  /* ================= controller/head tracking =================== */
+	  // head
+	  head_pos = (ovr::toGlm(eyePoses[0].Position) + ovr::toGlm(eyePoses[1].Position)) / 2.0f;
+	  head_rot = ovr::toGlm(eyePoses[0].Orientation);
+
 	  double ftiming = ovr_GetPredictedDisplayTime(_session, 0);
 	  ovrTrackingState hmdState = ovr_GetTrackingState(_session, ftiming, ovrTrue);
 	  // left controller
@@ -93,18 +94,21 @@ int player_id = 0;
 	  hand_pos[1] = ovr::toGlm(rightHandPoseState.ThePose.Position);
 	  hand_rot[1] = ovr::toGlm(ovrQuatf(rightHandPoseState.ThePose.Orientation));
 
-	  // ============ connect server ===================//
-	  ovrTrackingState ts = ovr_GetTrackingState(_session, ovr_GetTimeInSeconds(), ovrTrue);
-	  ovrPosef headpose = ts.HeadPose.ThePose;
-	  
+	  /* ============ connect server ===================*/
+
+	  // upload
 	  ClientData data;  
-	  data.head_pos = ovr::toGlm(headpose.Position);    //0.5f * (ovr::toGlm(eyePoses[0].Position) + ovr::toGlm(eyePoses[0].Position));
-	  data.head_rot = ovr::toGlm(headpose.Orientation);
+	  data.head_pos = head_pos;
+	  data.head_rot = head_rot;
+	  data.player_translation = player_translation;
+	  data.player_rotation = player_rotation;
 	  for (int i = 0; i < 2; i++) {
 		  data.controller_location[i] = hand_pos[i];
 		  data.controller_rotation[i] = hand_rot[i];
 	  }
-	  data.hit = A;
+	  data.hit = right_hand && right_index && left_hand;
+	  data.cue_point = translate(mat4(1.0f), vec3(0.0f, 0.6f, 0.0f)) * cue_point * vec4(0.0f,0.0f,0.0f,1.0f);
+	  // download
 	  playerData = client->call("getStatus", player_id, data).as<PlayerData>();
 	  LocationBall pos_data = client->call("getLocation").as<LocationBall>();
 	  RotationBall rot_data = client->call("getRotation").as<RotationBall>();
@@ -116,12 +120,27 @@ int player_id = 0;
 	  }
   }
 
-  void ExampleApp::renderScene(const glm::mat4& projection, const glm::mat4& headPose)
+  void ExampleApp::renderScene(const glm::mat4& projection, const ovrPosef & eyePose)
   {
-	mat4 left_controller = translate(mat4(1.0f), hand_pos[0]) * mat4_cast(hand_rot[0]);
-	mat4 right_controller = translate(mat4(1.0f), hand_pos[1]) * mat4_cast(hand_rot[1]);
-	scene->render(projection, inverse(headPose), left_controller, right_controller, playerData, ball_pos, ball_rot, ball_on);
-  }
+	  mat4 bodyRotation = rotate(mat4(1.0f), player_rotation, vec3(0, 1, 0));
+	  mat4 bodyTranslation = translate(mat4(1.0f), player_translation);
+	  head_pos = mat3(bodyRotation) * head_pos;
+	  mat4 transf = bodyTranslation * translate(mat4(1.0f), head_pos) * bodyRotation * inverse(translate(mat4(1.0f), head_pos));
+	  // controller matrix
+	  mat4 left_controller = transf * translate(mat4(1.0f), hand_pos[0]) * mat4_cast(hand_rot[0]);
+	  mat4 right_controller = transf * translate(mat4(1.0f), hand_pos[1]) * mat4_cast(hand_rot[1]);
+	  mat4 right_rotation = mat4_cast(hand_rot[1]); 
+	  // modelview matrix
+	  mat4 modelview = transf * ovr::toGlm(eyePose);
+	  // call render
+	  scene->render(projection, inverse(modelview),
+		  left_controller, right_controller, right_rotation,
+		  playerData, 
+		  ball_pos, ball_rot, ball_on, cue_point,
+		  right_hand && right_index, left_hand,
+		  player_translation, player_rotation
+	  );
+  } 
 
  
 
@@ -156,48 +175,34 @@ Scene::Scene()
 	base->mode = 1;
 	base->toWorld = translate(mat4(1.0f), vec3(0.0f, -0.925f, 0.0f)) * transf * scale(mat4(1.0f), vec3(0.012f));
 
+	// floor 
+	floor = new Cube();
+
 	// 10m wide sky box: size doesn't matter though
 	skybox = std::make_unique<Skybox>("skybox");
 	skybox->toWorld = glm::scale(glm::mat4(1.0f), glm::vec3(5.0f));
 
 	// load texture
 	diffuse_fabric = TextureFromFile("Fabric_Diffuse.png", "texture");
-	glActiveTexture(GL_TEXTURE0 + 1);
-	glBindTexture(GL_TEXTURE_2D, diffuse_fabric);
-
 	specular_fabric = TextureFromFile("Fabric_Glossiness.png", "texture");
-	glActiveTexture(GL_TEXTURE0 + 2);
-	glBindTexture(GL_TEXTURE_2D, specular_fabric);
-
 	diffuse_base = TextureFromFile("Table_Diffuse.png", "texture");
-	glActiveTexture(GL_TEXTURE0 + 3);
-	glBindTexture(GL_TEXTURE_2D, diffuse_base);
-
 	specular_base = TextureFromFile("Table_Glossiness.png", "texture");
-	glActiveTexture(GL_TEXTURE0 + 4);
-	glBindTexture(GL_TEXTURE_2D, specular_base);
-
 	diffuse_ball = TextureFromFile("Balls_Diffuse.png", "texture");
-	glActiveTexture(GL_TEXTURE0 + 5);
-	glBindTexture(GL_TEXTURE_2D, diffuse_ball);
-
 	specular_ball = TextureFromFile("Balls_Glossiness.png", "texture");
-	glActiveTexture(GL_TEXTURE0 + 6);
-	glBindTexture(GL_TEXTURE_2D, specular_ball);
-
 	diffuse_cue = TextureFromFile("Cues_Diffuse.png", "texture");
-	glActiveTexture(GL_TEXTURE0 + 7);
-	glBindTexture(GL_TEXTURE_2D, diffuse_ball);
-
 	specular_cue = TextureFromFile("Cues_Glossiness.png", "texture");
-	glActiveTexture(GL_TEXTURE0 + 8);
-	glBindTexture(GL_TEXTURE_2D, specular_ball);
-
-	
+	diffuse_floor = TextureFromFile("floor.png", "texture");
 }
 
-void Scene::render(const mat4& projection, const mat4& view, const mat4 controllerL, const mat4 controllerR, const PlayerData & playerData, vec3 * ball_pos, quat * ball_rot, bool * ball_on)
+void Scene::render(
+	const mat4& projection, const mat4& view, 
+	const mat4 controllerL, const mat4 controllerR, const mat4 rotationR,  
+	const PlayerData & playerData, 
+	vec3 * ball_pos, quat * ball_rot, bool * ball_on, mat4& cue_point, 
+	bool rightHold, bool left_hand, 
+	vec3 player_translate, float rotate_change)
 {	
+	//lights
 	float lightransf[4 * NUMLIGHT];
 	for (int i = 0; i < NUMLIGHT; i++) {
 		vec4 lightposAfter = view * transf * vec4(lightposn[4 * i], lightposn[4 * i + 1], lightposn[4 * i + 2], lightposn[4 * i + 3]);
@@ -206,8 +211,6 @@ void Scene::render(const mat4& projection, const mat4& view, const mat4 controll
 		lightransf[4 * i + 2] = lightposAfter[2];
 		lightransf[4 * i + 3] = lightposAfter[3];
 	}
-
-	// lights
 	glUniform1i(glGetUniformLocation(shader, "numused"), NUMLIGHT);
 	glUniform4fv(glGetUniformLocation(shader, "lightcolor"), 1, lightcolor);
 	glUniform4fv(glGetUniformLocation(shader, "lightposn"), 1, lightransf);
@@ -231,7 +234,6 @@ void Scene::render(const mat4& projection, const mat4& view, const mat4 controll
 			balls[i]->Draw(shader, projection, view);
 		}
 	}
-
 	//cues
 	glActiveTexture(GL_TEXTURE0 + 1);
 	glBindTexture(GL_TEXTURE_2D, diffuse_cue);
@@ -239,13 +241,29 @@ void Scene::render(const mat4& projection, const mat4& view, const mat4 controll
 	glBindTexture(GL_TEXTURE_2D, specular_cue);
 	glUniform1i(glGetUniformLocation(shader, "texture_diffuse"), 1);
 	glUniform1i(glGetUniformLocation(shader, "texture_specular"), 2);
+
 	vec3 hands = vec3(controllerL[3]) - vec3(controllerR[3]);
 	vec3 axis = normalize(cross(hands, vec3(0.0f, -1.0f, 0.0f)));
 	float angle = acos(dot(normalize(hands), vec3(0.0f, 1.0f, 0.0f)));
 	mat4 rotation = mat4_cast(angleAxis(angle, axis));
 
-	cue->toWorld = translate(mat4(1.0f), vec3(controllerR[3])) * rotation * scale(mat4(1.0f), vec3(0.012f));
-	cue->Draw(shader, projection, view);
+	cue_point = translate(mat4(1.0f), vec3(controllerR[3])) * rotation * translate(mat4(1.0f), vec3(0.0f, CUELENGTH, 0.0f));
+
+	if (rightHold) {
+		
+		// connect to left hand when triggered.
+		if (left_hand) {
+			// cue point----------------------
+			head->toWorld = cue_point * scale(mat4(1.0f), vec3(0.003f));
+			head->Draw(shader, projection, view);
+		}
+		else {
+			rotation = rotationR;
+		}
+
+		cue->toWorld = translate(mat4(1.0f), vec3(controllerR[3])) * rotation * scale(mat4(1.0f), vec3(0.008f));
+		cue->Draw(shader, projection, view);
+	}
 
 	// render the controller
 	mat4 hand_transf = glm::rotate(mat4(1.0f), 3.14f * 0.5f, vec3(0, 1, 0)) * glm::rotate(mat4(1.0f), 3.14f, vec3(0, 0, 1)) * scale(mat4(1.0f), vec3(0.0022f));
@@ -265,7 +283,7 @@ void Scene::render(const mat4& projection, const mat4& view, const mat4 controll
 	hand->Draw(shader, projection, view);
 	*/
 
-	// table
+	// table fabric
 	glActiveTexture(GL_TEXTURE0 + 1);
 	glBindTexture(GL_TEXTURE_2D, diffuse_fabric);
 	glActiveTexture(GL_TEXTURE0 + 2);
@@ -274,6 +292,15 @@ void Scene::render(const mat4& projection, const mat4& view, const mat4 controll
 	glUniform1i(glGetUniformLocation(shader, "texture_specular"), 2);
 	fabric->Draw(shader, projection, view);
 
+	// floor
+	glActiveTexture(GL_TEXTURE0 + 1);
+	glBindTexture(GL_TEXTURE_2D, diffuse_floor);
+	glUniform1i(glGetUniformLocation(shader, "texture_diffuse"), 1);
+	floor->mode = 5;
+	floor->toWorld = translate(mat4(1.0f), vec3(0.0f, -1.52f, 0.0f)) * scale(mat4(1.0f), vec3(8.0f, 0.00002f, 8.0f));
+	floor->draw(shader, projection, view);
+
+	// table base
 	glActiveTexture(GL_TEXTURE0 + 1);
 	glBindTexture(GL_TEXTURE_2D, diffuse_base);
 	glActiveTexture(GL_TEXTURE0 + 2);
@@ -281,6 +308,7 @@ void Scene::render(const mat4& projection, const mat4& view, const mat4 controll
 	glUniform1i(glGetUniformLocation(shader, "texture_diffuse"), 1);
 	glUniform1i(glGetUniformLocation(shader, "texture_specular"), 2);
 	base->Draw(shader, projection, view);
+
 }
 
 int main()

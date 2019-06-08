@@ -85,4 +85,9 @@ void main()
 	}else if(mode == 4){
 		fragColor = vec4(1.0f, 1.0f, 1.0f, 0.0f);
 	}
+	else if(mode == 5){ // floor
+		vec2 UV = vec2(TC3.x,TC3.z);
+		fragColor = texture2D(texture_diffuse, UV);
+		
+	}
 }

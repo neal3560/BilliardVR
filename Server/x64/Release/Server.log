@@ -1,20 +1,38 @@
-﻿  pch.cpp
-  Server.cpp
-c:\users\weh073\desktop\billardvr\server\server.cpp(113): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\weh073\desktop\billardvr\server\server.cpp(146): warning C4305: '=': truncation from 'double' to 'float'
-c:\users\weh073\desktop\billardvr\server\server.cpp(151): warning C4305: '=': truncation from 'double' to 'float'
-c:\users\weh073\desktop\billardvr\server\server.cpp(157): warning C4305: '=': truncation from 'double' to 'float'
-c:\users\weh073\desktop\billardvr\server\server.cpp(162): warning C4305: '=': truncation from 'double' to 'float'
+﻿  Server.cpp
+c:\users\chh179\desktop\billiardvr\server\server.cpp(122): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\chh179\desktop\billiardvr\server\server.cpp(155): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+c:\users\chh179\desktop\billiardvr\server\server.cpp(160): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+c:\users\chh179\desktop\billiardvr\server\server.cpp(166): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+c:\users\chh179\desktop\billiardvr\server\server.cpp(171): warning C4305: '=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+c:\users\chh179\desktop\billiardvr\server\server.cpp(186): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   Generating code
-  All 1900 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  4 of 1955 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-rpc.lib(dispatcher.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(dispatcher.obj)' or at 'C:\Users\weh073\DESKTOP\BillardVR\x64\Release\rpc.pdb'; linking object as if no debug info
-rpc.lib(server.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(server.obj)' or at 'C:\Users\weh073\DESKTOP\BillardVR\x64\Release\rpc.pdb'; linking object as if no debug info
-rpc.lib(this_handler.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(this_handler.obj)' or at 'C:\Users\weh073\DESKTOP\BillardVR\x64\Release\rpc.pdb'; linking object as if no debug info
-rpc.lib(this_session.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(this_session.obj)' or at 'C:\Users\weh073\DESKTOP\BillardVR\x64\Release\rpc.pdb'; linking object as if no debug info
-rpc.lib(this_server.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(this_server.obj)' or at 'C:\Users\weh073\DESKTOP\BillardVR\x64\Release\rpc.pdb'; linking object as if no debug info
-rpc.lib(server_session.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(server_session.obj)' or at 'C:\Users\weh073\DESKTOP\BillardVR\x64\Release\rpc.pdb'; linking object as if no debug info
-rpc.lib(response.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(response.obj)' or at 'C:\Users\weh073\DESKTOP\BillardVR\x64\Release\rpc.pdb'; linking object as if no debug info
-rpc.lib(client_error.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(client_error.obj)' or at 'C:\Users\weh073\DESKTOP\BillardVR\x64\Release\rpc.pdb'; linking object as if no debug info
-rpc.lib(format.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(format.obj)' or at 'C:\Users\weh073\DESKTOP\BillardVR\x64\Release\rpc.pdb'; linking object as if no debug info
-  Server.vcxproj -> C:\Users\weh073\DESKTOP\BillardVR\x64\Release\Server.exe
+rpc.lib(dispatcher.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(dispatcher.obj)' or at 'C:\Users\chh179\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
+rpc.lib(server.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(server.obj)' or at 'C:\Users\chh179\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
+rpc.lib(this_handler.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(this_handler.obj)' or at 'C:\Users\chh179\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
+rpc.lib(this_session.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(this_session.obj)' or at 'C:\Users\chh179\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
+rpc.lib(this_server.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(this_server.obj)' or at 'C:\Users\chh179\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
+rpc.lib(server_session.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(server_session.obj)' or at 'C:\Users\chh179\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
+rpc.lib(response.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(response.obj)' or at 'C:\Users\chh179\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
+rpc.lib(client_error.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(client_error.obj)' or at 'C:\Users\chh179\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
+rpc.lib(format.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(format.obj)' or at 'C:\Users\chh179\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
+  Server.vcxproj -> C:\Users\chh179\DESKTOP\BilliardVR\x64\Release\Server.exe

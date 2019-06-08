@@ -15,7 +15,7 @@ unsigned char* loadPPM(const char* filename, int& width, int& height)
 
   if ((fp = fopen(filename, "rb")) == NULL)
   {
-    std::cerr << "error reading ppm file, could not locate " << filename << std::endl;
+    //std::cerr << "error reading ppm file, could not locate " << filename << std::endl;
     width = 0;
     height = 0;
     return NULL;
@@ -47,7 +47,7 @@ unsigned char* loadPPM(const char* filename, int& width, int& height)
   fclose(fp);
   if (read != 1)
   {
-    std::cerr << "error parsing ppm file, incomplete data" << std::endl;
+    //std::cerr << "error parsing ppm file, incomplete data" << std::endl;
     delete[] rawData;
     width = 0;
     height = 0;
@@ -76,7 +76,7 @@ unsigned loadCubemap(const std::string directory, std::vector<std::string>& face
     }
     else
     {
-      std::cout << "Cubemap texture failed to load at path: " << faces[i].c_str() << std::endl;
+      //std::cout << "Cubemap texture failed to load at path: " << faces[i].c_str() << std::endl;
     }
   }
   glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
