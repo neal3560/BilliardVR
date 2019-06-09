@@ -47,7 +47,7 @@ vec4 ComputeLight (const in vec3 direction, const in vec4 lightcolor, const in v
 void main()
 {
 	if(mode == 0){
-		fragColor = vec4(0.0f, 1.0f, 0.0f, 0.0f);
+		fragColor = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 	}else if(mode == 1){
 		// material
 		vec4 diffuse = texture2D(texture_diffuse, TC2);
@@ -81,13 +81,10 @@ void main()
 	}else if(mode == 2){
 		fragColor = texture(texture3d, TC3);
 	}else if(mode == 3){
-		fragColor = vec4(0.0f, 0.0f, 0.0f, 0.0f);
+		vec2 UV = vec2(TC3.x,TC3.z);
+		fragColor = texture2D(texture_diffuse, UV);
 	}else if(mode == 4){
 		fragColor = vec4(1.0f, 1.0f, 1.0f, 0.0f);
 	}
-	else if(mode == 5){ // floor
-		vec2 UV = vec2(TC3.x,TC3.z);
-		fragColor = texture2D(texture_diffuse, UV);
-		
-	}
+
 }

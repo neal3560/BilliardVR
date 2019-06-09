@@ -1,34 +1,19 @@
 ﻿  Client.cpp
-c:\users\chh179\desktop\billiardvr\client\mesh.h(93): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-c:\users\chh179\desktop\billiardvr\client\client.cpp(61): warning C4244: '+=': conversion from 'double' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-c:\users\chh179\desktop\billiardvr\client\client.cpp(62): warning C4244: '+=': conversion from 'double' to 'T', possible loss of data
-          with
-          [
-              T=float
-          ]
-c:\users\chh179\desktop\billiardvr\client\client.cpp(65): warning C4305: '+=': truncation from 'double' to 'T'
-          with
-          [
-              T=float
-          ]
-c:\users\chh179\desktop\billiardvr\client\client.cpp(69): warning C4305: '-=': truncation from 'double' to 'T'
-          with
-          [
-              T=float
-          ]
-c:\users\chh179\desktop\billiardvr\client\client.cpp(75): warning C4305: '-=': truncation from 'double' to 'float'
-c:\users\chh179\desktop\billiardvr\client\client.cpp(78): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\weh073\desktop\billiardvr\client\mesh.h(93): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\weh073\desktop\billiardvr\client\client.cpp(85): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\weh073\desktop\billiardvr\client\client.cpp(86): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\weh073\desktop\billiardvr\client\client.cpp(89): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\weh073\desktop\billiardvr\client\client.cpp(93): warning C4305: '-=': truncation from 'double' to 'float'
+c:\users\weh073\desktop\billiardvr\client\client.cpp(101): warning C4305: '-=': truncation from 'double' to 'float'
+c:\users\weh073\desktop\billiardvr\client\client.cpp(105): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\weh073\desktop\billiardvr\client\client.cpp(135): warning C4554: '<<': check operator precedence for possible error; use parentheses to clarify precedence
   Generating code
-  5 of 2626 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
-    1 functions were new in current compilation
-    13 functions had inline decision re-evaluated but remain unchanged
+  1 of 2862 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-rpc.lib(client.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(client.obj)' or at 'C:\Users\chh179\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
-rpc.lib(rpc_error.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(rpc_error.obj)' or at 'C:\Users\chh179\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
-rpc.lib(response.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(response.obj)' or at 'C:\Users\chh179\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
-rpc.lib(format.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(format.obj)' or at 'C:\Users\chh179\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
-  Client.vcxproj -> C:\Users\chh179\DESKTOP\BilliardVR\x64\Release\Client.exe
+rpc.lib(client.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(client.obj)' or at 'C:\Users\weh073\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
+rpc.lib(rpc_error.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(rpc_error.obj)' or at 'C:\Users\weh073\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
+rpc.lib(response.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(response.obj)' or at 'C:\Users\weh073\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
+rpc.lib(format.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(format.obj)' or at 'C:\Users\weh073\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
+  Client.vcxproj -> C:\Users\weh073\DESKTOP\BilliardVR\x64\Release\Client.exe

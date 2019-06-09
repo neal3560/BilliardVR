@@ -4,8 +4,8 @@ using namespace std;
 int player_id = 0;
 
 #define CUELENGTH 1.2
-#define MOVESTEP 0.01
-#define ROTATESTEP 0.006
+#define MOVESTEP 0.008
+#define ROTATESTEP 0.008
 
   ExampleApp::ExampleApp()
   {
@@ -15,9 +15,15 @@ int player_id = 0;
 	  right_hand = false;
 	  right_index = false;
 	  left_hand = false;
+	  
+	  transf = translate(mat4(1.0f), vec3(0.0f, -0.6f, 0.0f));
 
 	  player_translation = vec3(0.0f, 0.0f, 0.0f);
 	  player_rotation = 0.0f;
+	  world_origin = vec3(0.0f);
+
+	  ball_hit = TEXT("sound/ball_hit.wav");
+	  cur_frame = 0;
   }
 
 
@@ -27,7 +33,7 @@ int player_id = 0;
     glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
     glEnable(GL_DEPTH_TEST);
     ovr_RecenterTrackingOrigin(_session);
-    scene = std::shared_ptr<Scene>(new Scene());
+    scene = std::shared_ptr<Scene>(new Scene(transf));
 
   }
 
@@ -38,6 +44,24 @@ int player_id = 0;
 
   void ExampleApp::updateState()
   {	  
+
+	  cur_frame = (cur_frame + 1 ) % 10;
+	  /* ================= controller/head tracking =================== */
+	  // head
+	  head_pos = (ovr::toGlm(eyePoses[0].Position) + ovr::toGlm(eyePoses[1].Position)) / 2.0f;
+	  head_rot = ovr::toGlm(eyePoses[0].Orientation);
+	  // controller
+	  double ftiming = ovr_GetPredictedDisplayTime(_session, 0);
+	  ovrTrackingState hmdState = ovr_GetTrackingState(_session, ftiming, ovrTrue);
+	  // left controller
+	  ovrPoseStatef leftHandPoseState = hmdState.HandPoses[ovrHand_Left];
+	  hand_pos[0] = ovr::toGlm(leftHandPoseState.ThePose.Position);
+	  hand_rot[0] = ovr::toGlm(ovrQuatf(leftHandPoseState.ThePose.Orientation));
+	  // right controller
+	  ovrPoseStatef rightHandPoseState = hmdState.HandPoses[ovrHand_Right];
+	  hand_pos[1] = ovr::toGlm(rightHandPoseState.ThePose.Position);
+	  hand_rot[1] = ovr::toGlm(ovrQuatf(rightHandPoseState.ThePose.Orientation));
+
 	  // ==================== button state ========================
 	  ovrInputState inputState;
 	  ovr_GetInputState(_session, ovrControllerType_Touch, &inputState);
@@ -68,46 +92,34 @@ int player_id = 0;
 	  if (inputState.Buttons & ovrButton_X) {
 		  player_translation.y -= MOVESTEP;
 	  }
+	  mat4 bodyTranslation = translate(mat4(1.0f), player_translation);
 	  /********************** player rotatation **************************/
 	  // RT stick
 	  vec2 RT_stick = ovr::toGlm(inputState.Thumbstick[1]);
+	  mat4 bodyRotation = mat4(1.0f);
 	  if (RT_stick[0] > 0.3f) {
 		  player_rotation -= ROTATESTEP;
+		  bodyRotation = rotate(mat4(1.0f), float(-ROTATESTEP), vec3(0, 1, 0));
 	  }
 	  if (RT_stick[0] < -0.3f) {
 		  player_rotation += ROTATESTEP;
+		  bodyRotation = rotate(mat4(1.0f), float(ROTATESTEP), vec3(0, 1, 0));
 	  }
-
-	  /* ================= controller/head tracking =================== */
-	  // head
-	  head_pos = (ovr::toGlm(eyePoses[0].Position) + ovr::toGlm(eyePoses[1].Position)) / 2.0f;
-	  head_rot = ovr::toGlm(eyePoses[0].Orientation);
-
-	  double ftiming = ovr_GetPredictedDisplayTime(_session, 0);
-	  ovrTrackingState hmdState = ovr_GetTrackingState(_session, ftiming, ovrTrue);
-	  // left controller
-	  ovrPoseStatef leftHandPoseState = hmdState.HandPoses[ovrHand_Left];
-	  hand_pos[0] = ovr::toGlm(leftHandPoseState.ThePose.Position);
-	  hand_rot[0] = ovr::toGlm(ovrQuatf(leftHandPoseState.ThePose.Orientation));
-	  // right controller
-	  ovrPoseStatef rightHandPoseState = hmdState.HandPoses[ovrHand_Right];
-	  hand_pos[1] = ovr::toGlm(rightHandPoseState.ThePose.Position);
-	  hand_rot[1] = ovr::toGlm(ovrQuatf(rightHandPoseState.ThePose.Orientation));
+	  vec3 virtual_head_pos = translate(mat4(1.0f), world_origin) * rotate(mat4(1.0f), player_rotation, vec3(0, 1, 0)) * vec4(head_pos, 1.0f);
+	  mat4 origin_transf = translate(mat4(1.0f), virtual_head_pos) * bodyRotation * translate(mat4(1.0f), -virtual_head_pos);
+	  world_origin = vec3(origin_transf * vec4(world_origin, 1.0f));
+	  virtual_transf = bodyTranslation * translate(mat4(1.0f), world_origin) * rotate(mat4(1.0f), player_rotation, vec3(0, 1, 0));
 
 	  /* ============ connect server ===================*/
 
 	  // upload
 	  ClientData data;  
-	  data.head_pos = head_pos;
-	  data.head_rot = head_rot;
-	  data.player_translation = player_translation;
-	  data.player_rotation = player_rotation;
+	  data.headPose = virtual_transf * translate(mat4(1.0f),head_pos) *  mat4_cast(head_rot);
 	  for (int i = 0; i < 2; i++) {
-		  data.controller_location[i] = hand_pos[i];
-		  data.controller_rotation[i] = hand_rot[i];
+		  data.controllerPose[i] = virtual_transf * translate(mat4(1.0f), hand_pos[i]) * mat4_cast(hand_rot[i]);
 	  }
 	  data.hit = right_hand && right_index && left_hand;
-	  data.cue_point = translate(mat4(1.0f), vec3(0.0f, 0.6f, 0.0f)) * cue_point * vec4(0.0f,0.0f,0.0f,1.0f);
+	  data.cue_point = inverse(transf) * cue_point * vec4(0.0f,0.0f,0.0f,1.0f);
 	  // download
 	  playerData = client->call("getStatus", player_id, data).as<PlayerData>();
 	  LocationBall pos_data = client->call("getLocation").as<LocationBall>();
@@ -118,20 +130,22 @@ int player_id = 0;
 		  ball_rot[i] = rot_data.ball_rotation[i];
 		  ball_on[i] = on_data.on_table[i];
 	  }
+
+	  if(playerData.hit_volume > 0) {
+		  waveOutSetVolume(0, playerData.hit_volume << 16 + playerData.hit_volume);
+		  PlaySound(ball_hit, NULL, SND_ASYNC);
+	  }
+	  
   }
 
   void ExampleApp::renderScene(const glm::mat4& projection, const ovrPosef & eyePose)
   {
-	  mat4 bodyRotation = rotate(mat4(1.0f), player_rotation, vec3(0, 1, 0));
-	  mat4 bodyTranslation = translate(mat4(1.0f), player_translation);
-	  head_pos = mat3(bodyRotation) * head_pos;
-	  mat4 transf = bodyTranslation * translate(mat4(1.0f), head_pos) * bodyRotation * inverse(translate(mat4(1.0f), head_pos));
 	  // controller matrix
-	  mat4 left_controller = transf * translate(mat4(1.0f), hand_pos[0]) * mat4_cast(hand_rot[0]);
-	  mat4 right_controller = transf * translate(mat4(1.0f), hand_pos[1]) * mat4_cast(hand_rot[1]);
+	  mat4 left_controller = virtual_transf * translate(mat4(1.0f), hand_pos[0]) * mat4_cast(hand_rot[0]);
+	  mat4 right_controller = virtual_transf * translate(mat4(1.0f), hand_pos[1]) * mat4_cast(hand_rot[1]);
 	  mat4 right_rotation = mat4_cast(hand_rot[1]); 
 	  // modelview matrix
-	  mat4 modelview = transf * ovr::toGlm(eyePose);
+	  mat4 modelview = virtual_transf * ovr::toGlm(eyePose);
 	  // call render
 	  scene->render(projection, inverse(modelview),
 		  left_controller, right_controller, right_rotation,
@@ -144,7 +158,7 @@ int player_id = 0;
 
  
 
-Scene::Scene()
+Scene::Scene(mat4 transf)
 {
 	// Shader Program 
 	shader = LoadShaders("shader.vert", "shader.frag");
@@ -164,9 +178,9 @@ Scene::Scene()
 		balls[i]->mode = 1;
 	}
 
-	transf = translate(mat4(1.0f), vec3(0.0f, -0.6f, 0.0f));
+	this->transf = transf;
 
-	hand->mode = 3;
+	hand->mode = 0;
 	cue->mode = 1;
 
 	fabric->mode = 1;
@@ -177,6 +191,8 @@ Scene::Scene()
 
 	// floor 
 	floor = new Cube();
+	floor->mode = 3;
+	floor->toWorld = translate(mat4(1.0f), vec3(0.0f, -1.52f, 0.0f)) * scale(mat4(1.0f), vec3(5.0f, 0.00002f, 5.0f));
 
 	// 10m wide sky box: size doesn't matter though
 	skybox = std::make_unique<Skybox>("skybox");
@@ -191,7 +207,7 @@ Scene::Scene()
 	specular_ball = TextureFromFile("Balls_Glossiness.png", "texture");
 	diffuse_cue = TextureFromFile("Cues_Diffuse.png", "texture");
 	specular_cue = TextureFromFile("Cues_Glossiness.png", "texture");
-	diffuse_floor = TextureFromFile("floor.png", "texture");
+	diffuse_floor = TextureFromFile("floor3.jpg", "texture");
 }
 
 void Scene::render(
@@ -229,7 +245,7 @@ void Scene::render(
 		balls[i]->toWorld =  transf 
 			* translate(mat4(1.0f), ball_pos[i]) 
 			* toMat4(ball_rot[i])
-			* scale(mat4(1.0f), vec3(0.012f));
+			* scale(mat4(1.0f), vec3(0.0115f));
 		if (ball_on[i]) {
 			balls[i]->Draw(shader, projection, view);
 		}
@@ -253,7 +269,7 @@ void Scene::render(
 		
 		// connect to left hand when triggered.
 		if (left_hand) {
-			// cue point----------------------
+			// cue point
 			head->toWorld = cue_point * scale(mat4(1.0f), vec3(0.003f));
 			head->Draw(shader, projection, view);
 		}
@@ -275,11 +291,11 @@ void Scene::render(
 
 	//opponent's head and controller
 	/*
-	head->toWorld = translate(mat4(1.0f), playerData.head_pos) * scale(mat4(1.0f), vec3(0.04f));
+	head->toWorld = playerData.headPose * scale(mat4(1.0f), vec3(0.04f));
 	head->Draw(shader, projection, view);
-	hand->toWorld = playerData.controller_location[0] * playerData.controller_rotation[0] * hand_reflection * hand_transf;
+	hand->toWorld = playerData.controllerPose[0] * hand_reflection * hand_transf;
 	hand->Draw(shader, projection, view);
-	hand->toWorld = playerData.controller_location[1] * playerData.controller_rotation[1] * hand_transf;
+	hand->toWorld = playerData.controllerPose[1] * hand_reflection * hand_transf;
 	hand->Draw(shader, projection, view);
 	*/
 
@@ -296,8 +312,6 @@ void Scene::render(
 	glActiveTexture(GL_TEXTURE0 + 1);
 	glBindTexture(GL_TEXTURE_2D, diffuse_floor);
 	glUniform1i(glGetUniformLocation(shader, "texture_diffuse"), 1);
-	floor->mode = 5;
-	floor->toWorld = translate(mat4(1.0f), vec3(0.0f, -1.52f, 0.0f)) * scale(mat4(1.0f), vec3(8.0f, 0.00002f, 8.0f));
 	floor->draw(shader, projection, view);
 
 	// table base

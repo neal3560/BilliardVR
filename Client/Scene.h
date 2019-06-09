@@ -21,7 +21,7 @@
 class Scene {
 
 public:
-	Scene();
+	Scene(mat4 transf);
 	void render(const mat4& projection, const mat4& view, const mat4 controllerL, const mat4 controllerR, const mat4 rotationR, const PlayerData &playerData, 
 		vec3 * ball_pos, quat * ball_rot, bool * ball_on, mat4 & cue_point, bool right_hold, bool left_hand, vec3 player_translate, float rotate_change);
 
@@ -86,11 +86,15 @@ protected:
 private:
 	rpc::client *client;
 	std::shared_ptr<Scene> scene;
+	mat4 virtual_transf;   //real to virtual coordinates transformation
+	vec3 world_origin;     //world origin coordinates in virtual world
 
-	vec3 head_pos;
-	quat head_rot;
-	vec3 hand_pos[2];
-	quat hand_rot[2];
+	mat4 transf;
+
+	vec3 head_pos;         //head position related to real world coordinates
+	quat head_rot;	       //head rotation related to real world coordinates
+	vec3 hand_pos[2];      //controller position related to real world coordinates
+	quat hand_rot[2];      //controller orientation related to real world coordinates
 
 	PlayerData playerData;
 	vec3 ball_pos[NUMBALL];
@@ -107,5 +111,11 @@ private:
 
 	// cue point
 	mat4 cue_point;
+
+	// sound
+	LPCTSTR ball_hit;
+
+	//frame
+	int cur_frame;
 };
 #endif
