@@ -11,19 +11,24 @@
 #include "RotationBall.h"
 #include "OnTableBall.h"
 #include "PlayerData.h"
+#include "PlayerData2.h"
 #include "ClientData.h"
+#include "ClientData2.h"
 
 
 
 #define NUMLIGHT 3
-#define NUMBALL 11
+#define NUMBALL 16
 
 class Scene {
 
 public:
 	Scene(mat4 transf);
-	void render(const mat4& projection, const mat4& view, const mat4 controllerL, const mat4 controllerR, const mat4 rotationR, const PlayerData &playerData, 
-		vec3 * ball_pos, quat * ball_rot, bool * ball_on, mat4 & cue_point, bool right_hold, bool left_hand, vec3 player_translate, float rotate_change);
+	void render(const mat4& projection, const mat4& view, 
+				const mat4 controllerL, const mat4 controllerR,  const mat4 cue, 
+				const PlayerData &playerData, const PlayerData2 & playerData2,
+				vec3 * ball_pos, quat * ball_rot, bool * ball_on, 
+				bool hold_cue);
 
 	GLuint shader;
 
@@ -34,9 +39,11 @@ public:
 
 	Model * hand;
 	Model * head;
+
+	Model * cue_head;
 	
 	Model * cue;
-	Model * balls[11];
+	Model * balls[NUMBALL];
 	Model * fabric;
 	Model * base;
 
@@ -94,16 +101,17 @@ private:
 
 	vec3 head_pos;         //head position related to real world coordinates
 	quat head_rot;	       //head rotation related to real world coordinates
-	vec3 hand_pos[2];      //controller position related to real world coordinates
-	quat hand_rot[2];      //controller orientation related to real world coordinates
+	
+	mat4 hand_pose[2];
+	mat4 cue_pose;
 
 	PlayerData playerData;
+	PlayerData2 playerData2;
 	vec3 ball_pos[NUMBALL];
 	quat ball_rot[NUMBALL];
 	bool ball_on[NUMBALL];
 
-	bool right_hand;
-	bool right_index;
+	bool right_hold;
 	bool left_hand;
 
 	// player movement
@@ -112,12 +120,6 @@ private:
 
 	// cue point
 	mat4 cue_point;
-
-	// sound
-	LPCTSTR ball_hit;
-
-	//frame
-	int cur_frame;
 
 };
 #endif

@@ -2,7 +2,7 @@
 #include "glm/glm.hpp"
 #include <glm/gtx/string_cast.hpp>
 
-#define NUMBALL 11
+#define NUMBALL 16
 
 struct RotationBall
 {
@@ -21,6 +21,11 @@ struct RotationBall
 		ball_rotation[7].x, ball_rotation[7].y, ball_rotation[7].z, ball_rotation[7].w,
 		ball_rotation[8].x, ball_rotation[8].y, ball_rotation[8].z, ball_rotation[8].w,
 		ball_rotation[9].x, ball_rotation[9].y, ball_rotation[9].z, ball_rotation[9].w,
-		ball_rotation[10].x, ball_rotation[10].y, ball_rotation[10].z, ball_rotation[10].w
+		ball_rotation[10].x, ball_rotation[10].y, ball_rotation[10].z, ball_rotation[10].w,
+		ball_rotation[11].x, ball_rotation[11].y, ball_rotation[11].z, ball_rotation[11].w,
+		ball_rotation[12].x, ball_rotation[12].y, ball_rotation[12].z, ball_rotation[12].w,
+		ball_rotation[13].x, ball_rotation[13].y, ball_rotation[13].z, ball_rotation[13].w,
+		ball_rotation[14].x, ball_rotation[14].y, ball_rotation[14].z, ball_rotation[14].w,
+		ball_rotation[15].x, ball_rotation[15].y, ball_rotation[15].z, ball_rotation[15].w
 	)
 };

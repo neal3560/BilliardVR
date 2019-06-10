@@ -44,6 +44,8 @@ public:
 	Model(string const &path, bool gamma = false) : gammaCorrection(gamma)
 	{
 		loadModel(path);
+		mode = 1;
+		toWorld = mat4(1.0f);
 	}
 
 	// draws the model, and thus all its meshes

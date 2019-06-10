@@ -1,14 +1,21 @@
 ﻿  pch.cpp
   Cube.cpp
   Client.cpp
-c:\users\weh073\desktop\billardvr\client\mesh.h(93): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\weh073\desktop\billiardvr\client\mesh.h(93): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\weh073\desktop\billiardvr\client\client.cpp(51): warning C4305: 'argument': truncation from 'double' to 'irrklang::ik_f32'
+c:\users\weh073\desktop\billiardvr\client\client.cpp(101): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\weh073\desktop\billiardvr\client\client.cpp(102): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\weh073\desktop\billiardvr\client\client.cpp(105): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\weh073\desktop\billiardvr\client\client.cpp(109): warning C4305: '-=': truncation from 'double' to 'float'
+c:\users\weh073\desktop\billiardvr\client\client.cpp(117): warning C4305: '-=': truncation from 'double' to 'float'
+c:\users\weh073\desktop\billiardvr\client\client.cpp(121): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\weh073\desktop\billiardvr\client\client.cpp(155): warning C4244: 'argument': conversion from 'double' to 'irrklang::ik_f32', possible loss of data
+c:\users\weh073\desktop\billiardvr\client\client.cpp(163): warning C4305: 'argument': truncation from 'double' to 'irrklang::ik_f32'
+c:\users\weh073\desktop\billiardvr\client\client.cpp(169): warning C4244: 'argument': conversion from 'double' to 'irrklang::ik_f32', possible loss of data
   shader.cpp
   Skybox.cpp
   TexturedCube.cpp
-c:\users\weh073\desktop\billardvr\client\texturedcube.cpp(46): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+c:\users\weh073\desktop\billiardvr\client\texturedcube.cpp(46): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
   Generating Code...
-rpc.lib(client.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(client.obj)' or at 'C:\Users\weh073\DESKTOP\BillardVR\x64\Debug\rpc.pdb'; linking object as if no debug info
-rpc.lib(rpc_error.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(rpc_error.obj)' or at 'C:\Users\weh073\DESKTOP\BillardVR\x64\Debug\rpc.pdb'; linking object as if no debug info
-rpc.lib(response.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(response.obj)' or at 'C:\Users\weh073\DESKTOP\BillardVR\x64\Debug\rpc.pdb'; linking object as if no debug info
-rpc.lib(format.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(format.obj)' or at 'C:\Users\weh073\DESKTOP\BillardVR\x64\Debug\rpc.pdb'; linking object as if no debug info
-  Client.vcxproj -> C:\Users\weh073\DESKTOP\BillardVR\x64\Debug\Client.exe
+Client.obj : error LNK2019: unresolved external symbol "__declspec(dllimport) class irrklang::ISoundEngine * __cdecl irrklang::createIrrKlangDevice(enum irrklang::E_SOUND_OUTPUT_DRIVER,int,char const *,char const *)" (__imp_?createIrrKlangDevice@irrklang@@YAPEAVISoundEngine@1@W4E_SOUND_OUTPUT_DRIVER@1@HPEBD1@Z) referenced in function "void __cdecl `dynamic initializer for 'ball_engine''(void)" (??__Eball_engine@@YAXXZ)
+C:\Users\weh073\DESKTOP\BilliardVR\x64\Debug\Client.exe : fatal error LNK1120: 1 unresolved externals

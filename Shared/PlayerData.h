@@ -4,18 +4,12 @@
 
 struct PlayerData
 {
-	float hit_volume;
-	bool pocketed;
-	float cue_hit;
 	glm::mat4 headPose;
 	glm::mat4 controllerPose[2];
 
 	// rpc Macro to generate serialize code for the struct (Note: for glm object, manually specify x,y,z,w)
 	MSGPACK_DEFINE_MAP
 	(
-		hit_volume,
-		pocketed,
-		cue_hit,
 		headPose[0][0], headPose[0][1], headPose[0][2], headPose[0][3],
 		headPose[1][0], headPose[1][1], headPose[1][2], headPose[1][3],
 		headPose[2][0], headPose[2][1], headPose[2][2], headPose[2][3],

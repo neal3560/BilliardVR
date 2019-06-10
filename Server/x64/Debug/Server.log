@@ -1,10 +1,13 @@
 ﻿  pch.cpp
   Server.cpp
-c:\users\weh073\desktop\billardvr\server\server.cpp(113): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\weh073\desktop\billardvr\server\server.cpp(146): warning C4305: '=': truncation from 'double' to 'float'
-c:\users\weh073\desktop\billardvr\server\server.cpp(151): warning C4305: '=': truncation from 'double' to 'float'
-c:\users\weh073\desktop\billardvr\server\server.cpp(157): warning C4305: '=': truncation from 'double' to 'float'
-c:\users\weh073\desktop\billardvr\server\server.cpp(162): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\weh073\desktop\billiardvr\server\server.cpp(134): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\weh073\desktop\billiardvr\server\server.cpp(168): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\weh073\desktop\billiardvr\server\server.cpp(177): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\weh073\desktop\billiardvr\server\server.cpp(182): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\weh073\desktop\billiardvr\server\server.cpp(188): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\weh073\desktop\billiardvr\server\server.cpp(193): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\weh073\desktop\billiardvr\server\server.cpp(209): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\weh073\desktop\billiardvr\server\server.cpp(246): warning C4305: '=': truncation from 'double' to 'float'
 rpc.lib(dispatcher.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in Server.obj
 rpc.lib(dispatcher.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MT_StaticRelease' doesn't match value 'MTd_StaticDebug' in Server.obj
 rpc.lib(server.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in Server.obj
@@ -105,4 +108,4 @@ libcpmtd.lib(_tolower.obj) : error LNK2019: unresolved external symbol _wcsdup_d
 libcpmtd.lib(xstrcoll.obj) : error LNK2001: unresolved external symbol _wcsdup_dbg
 libcpmtd.lib(locale.obj) : error LNK2019: unresolved external symbol _realloc_dbg referenced in function "private: static void __cdecl std::locale::_Locimp::_Locimp_Addfac(class std::locale::_Locimp *,class std::locale::facet *,unsigned __int64)" (?_Locimp_Addfac@_Locimp@locale@std@@CAXPEAV123@PEAVfacet@23@_K@Z)
 libconcrtd.lib(SubAllocator.obj) : error LNK2019: unresolved external symbol _CrtIsValidHeapPointer referenced in function "private: bool __cdecl Concurrency::details::SubAllocator::InitAndCheckBlockOnAlloc(union Concurrency::details::AllocationEntry *,unsigned __int64)" (?InitAndCheckBlockOnAlloc@SubAllocator@details@Concurrency@@AEAA_NPEATAllocationEntry@23@_K@Z)
-C:\Users\weh073\DESKTOP\BillardVR\x64\Debug\Server.exe : fatal error LNK1120: 7 unresolved externals
+C:\Users\weh073\DESKTOP\BilliardVR\x64\Debug\Server.exe : fatal error LNK1120: 7 unresolved externals

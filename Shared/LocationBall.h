@@ -2,7 +2,7 @@
 #include "glm/glm.hpp"
 #include <glm/gtx/string_cast.hpp>
 
-#define NUMBALL 11
+#define NUMBALL 16
 
 struct LocationBall
 {
@@ -22,6 +22,12 @@ struct LocationBall
 		ball_pos[7].x, ball_pos[7].y, ball_pos[7].z,
 		ball_pos[8].x, ball_pos[8].y, ball_pos[8].z,
 		ball_pos[9].x, ball_pos[9].y, ball_pos[9].z,
-		ball_pos[10].x, ball_pos[10].y, ball_pos[10].z
+		ball_pos[10].x, ball_pos[10].y, ball_pos[10].z,
+		ball_pos[11].x, ball_pos[11].y, ball_pos[11].z,
+		ball_pos[12].x, ball_pos[12].y, ball_pos[12].z,
+		ball_pos[13].x, ball_pos[13].y, ball_pos[13].z,
+		ball_pos[14].x, ball_pos[14].y, ball_pos[14].z,
+		ball_pos[15].x, ball_pos[15].y, ball_pos[15].z
+
 	)
 };

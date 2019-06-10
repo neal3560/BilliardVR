@@ -170,10 +170,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Shared\ClientData2.h" />
     <ClInclude Include="..\Shared\LocationBall.h" />
     <ClInclude Include="..\Shared\ClientData.h" />
     <ClInclude Include="..\Shared\OnTableBall.h" />
     <ClInclude Include="..\Shared\PlayerData.h" />
+    <ClInclude Include="..\Shared\PlayerData2.h" />
     <ClInclude Include="..\Shared\RotationBall.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="mesh.h" />
