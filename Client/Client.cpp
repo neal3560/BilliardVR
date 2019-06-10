@@ -5,8 +5,6 @@
 using namespace std;
 using namespace irrklang;
 
-int player_id = 0;
-
 #define CUELENGTH 1.5f
 #define HOLDPOINT 0.33f
 #define MOVESTEP 0.008f
@@ -33,6 +31,9 @@ ISoundEngine * wall_engine = createIrrKlangDevice();
 	  player_translation = vec3(0.0f, 0.0f, 1.6f);
 	  player_rotation = 0.0f;
 	  world_origin = vec3(0.0f);
+
+	  state = 0;
+	  player_id = -1;
 
   }
 
@@ -147,7 +148,6 @@ ISoundEngine * wall_engine = createIrrKlangDevice();
 	  data.controllerPose[0] = hand_pose[0];
 	  data.controllerPose[1] = hand_pose[1];
 	  
-	  
 	  ClientData2 data2;
 	  data2.cuePose = cue_pose;
 	  data2.hold = left_hand;
@@ -155,7 +155,11 @@ ISoundEngine * wall_engine = createIrrKlangDevice();
 	  data2.cue_point = inverse(transf) * cue_pose * vec4(0.0f, CUELENGTH - HOLDPOINT, 0.0f, 1.0f);
 
 	  // download
+	  // retrieve user id
 	  playerData = client->call("getStatus", player_id, data).as<PlayerData>();
+	  player_id = playerData.id;
+
+	  // retreive other data
 	  playerData2 = client->call("getStatus2", player_id, data2).as<PlayerData2>();
 	  LocationBall pos_data = client->call("getLocation").as<LocationBall>();
 	  RotationBall rot_data = client->call("getRotation").as<RotationBall>();
@@ -330,18 +334,20 @@ void Scene::render(
 	hand->toWorld = controllerR * hand_transf;
 	hand->Draw(shader, projection, view);
 
-	//opponent's head , controller and cue
-	head->toWorld = playerData.headPose * scale(mat4(1.0f), vec3(0.04f));
-	head->Draw(shader, projection, view);
-	hand->toWorld = playerData.controllerPose[0] * hand_reflection * hand_transf;
-	hand->Draw(shader, projection, view);
-	hand->toWorld = playerData.controllerPose[1] * hand_reflection * hand_transf;
-	hand->Draw(shader, projection, view);
-	if (playerData2.hold) {
-		cue->toWorld = playerData2.cuePose * translate(mat4(1.0f), vec3(0.0f, -HOLDPOINT, 0.0f)) * scale(mat4(1.0f), vec3(0.0101f));
-		cue->Draw(shader, projection, view);
+	// render opponent when the other gamer join
+	if (playerData.state > 0) {
+		//opponent's head , controller and cue
+		head->toWorld = playerData.headPose * scale(mat4(1.0f), vec3(0.04f));
+		head->Draw(shader, projection, view);
+		hand->toWorld = playerData.controllerPose[0] * hand_reflection * hand_transf;
+		hand->Draw(shader, projection, view);
+		hand->toWorld = playerData.controllerPose[1] * hand_reflection * hand_transf;
+		hand->Draw(shader, projection, view);
+		if (playerData2.hold) {
+			cue->toWorld = playerData2.cuePose * translate(mat4(1.0f), vec3(0.0f, -HOLDPOINT, 0.0f)) * scale(mat4(1.0f), vec3(0.0101f));
+			cue->Draw(shader, projection, view);
+		}
 	}
-	
 
 	// table fabric
 	glActiveTexture(GL_TEXTURE0 + 1);

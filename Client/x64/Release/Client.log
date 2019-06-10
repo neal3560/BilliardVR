@@ -1,9 +1,9 @@
 ﻿  Client.cpp
 c:\users\weh073\desktop\billiardvr\client\mesh.h(93): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
   Generating code
-  1 of 3345 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  179 of 3359 functions ( 5.3%) were compiled, the rest were copied from previous compilation.
+    163 functions were new in current compilation
+    163 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
 rpc.lib(client.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(client.obj)' or at 'C:\Users\weh073\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
 rpc.lib(rpc_error.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(rpc_error.obj)' or at 'C:\Users\weh073\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info

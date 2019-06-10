@@ -105,6 +105,9 @@ private:
 	mat4 hand_pose[2];
 	mat4 cue_pose;
 
+	int state;
+	int player_id;
+
 	PlayerData playerData;
 	PlayerData2 playerData2;
 	vec3 ball_pos[NUMBALL];
