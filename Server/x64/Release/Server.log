@@ -33,9 +33,9 @@ c:\users\chh179\desktop\billiardvr\server\server.cpp(247): warning C4244: '=': c
               _Ty=float
           ]
   Generating code
-  52 of 2240 functions ( 2.3%) were compiled, the rest were copied from previous compilation.
+  51 of 2240 functions ( 2.3%) were compiled, the rest were copied from previous compilation.
     50 functions were new in current compilation
-    2 functions had inline decision re-evaluated but remain unchanged
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
 rpc.lib(dispatcher.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(dispatcher.obj)' or at 'C:\Users\chh179\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
 rpc.lib(server.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(server.obj)' or at 'C:\Users\chh179\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info

@@ -48,7 +48,7 @@ ISoundEngine * bgm_engine = createIrrKlangDevice();
 
 	// bmg sound
 	ISound * sound_bgm = bgm_engine->play2D("sound/breakout.mp3", true,true,true); // initly paused
-	sound_bgm->setVolume(0.15);
+	sound_bgm->setVolume(0.1);
 	sound_bgm->setIsPaused(false);
 	
   }
@@ -166,7 +166,7 @@ ISoundEngine * bgm_engine = createIrrKlangDevice();
 	  // cue hit
 	  if (playerData.cue_hit > 0) {
 		  ISound * soundobj = cue_engine->play2D("sound/cue.wav", false, true, true); // create a sound obj intially paused
-		  soundobj->setVolume(playerData.cue_hit/3.0); // volume between 0~1
+		  soundobj->setVolume(playerData.cue_hit/3. * 0.7); // volume between 0~1 (0.7 because the original wav fle is lound)
 		  soundobj->setIsPaused(false);
 	  }
 	 
