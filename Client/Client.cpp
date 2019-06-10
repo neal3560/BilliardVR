@@ -1,11 +1,21 @@
 
 #include "Scene.h"
+#include <irrklang/irrKlang.h>
+
 using namespace std;
+using namespace irrklang;
+
 int player_id = 0;
 
 #define CUELENGTH 1.2
 #define MOVESTEP 0.008
 #define ROTATESTEP 0.008
+
+// sound engine. LEAVE IT HERE
+ISoundEngine *ball_engine = createIrrKlangDevice();
+ISoundEngine * pocket_engine = createIrrKlangDevice();
+ISoundEngine * cue_engine = createIrrKlangDevice();
+ISoundEngine * bgm_engine = createIrrKlangDevice();
 
   ExampleApp::ExampleApp()
   {
@@ -22,8 +32,9 @@ int player_id = 0;
 	  player_rotation = 0.0f;
 	  world_origin = vec3(0.0f);
 
-	  ball_hit = TEXT("sound/ball_hit.wav");
 	  cur_frame = 0;
+
+
   }
 
 
@@ -35,6 +46,11 @@ int player_id = 0;
     ovr_RecenterTrackingOrigin(_session);
     scene = std::shared_ptr<Scene>(new Scene(transf));
 
+	// bmg sound
+	ISound * sound_bgm = bgm_engine->play2D("sound/breakout.mp3", true,true,true); // initly paused
+	sound_bgm->setVolume(0.15);
+	sound_bgm->setIsPaused(false);
+	
   }
 
   void ExampleApp::shutdownGl()
@@ -131,10 +147,29 @@ int player_id = 0;
 		  ball_on[i] = on_data.on_table[i];
 	  }
 
-	  if(playerData.hit_volume > 0) {
-		  waveOutSetVolume(0, playerData.hit_volume << 16 + playerData.hit_volume);
-		  PlaySound(ball_hit, NULL, SND_ASYNC);
+	  // ----------- sound -------------
+	  // BALL HIT	
+	  if (playerData.hit_volume > 0) {
+		  
+		  ISound * soundobj = ball_engine->play2D("sound/ball_hit.wav",false,true,true); // create a sound obj intially paused
+		  soundobj->setVolume(playerData.hit_volume / 3.0); // volume between 0~1
+		  soundobj->setIsPaused(false);
+		
 	  }
+	  // pocket
+	  if (playerData.pocketed) {
+
+		  ISound * soundobj = pocket_engine->play2D("sound/pocket.wav", false, true, true); // create a sound obj intially paused
+		  soundobj->setVolume(0.3); // volume between 0~1
+		  soundobj->setIsPaused(false);
+	  }
+	  // cue hit
+	  if (playerData.cue_hit > 0) {
+		  ISound * soundobj = cue_engine->play2D("sound/cue.wav", false, true, true); // create a sound obj intially paused
+		  soundobj->setVolume(playerData.cue_hit/3.0); // volume between 0~1
+		  soundobj->setIsPaused(false);
+	  }
+	 
 	  
   }
 

@@ -83,6 +83,7 @@ protected:
 	void renderScene(const glm::mat4& projection, const ovrPosef & eyePose) override;
 
 
+
 private:
 	rpc::client *client;
 	std::shared_ptr<Scene> scene;
@@ -117,5 +118,6 @@ private:
 
 	//frame
 	int cur_frame;
+
 };
 #endif

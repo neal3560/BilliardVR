@@ -9,8 +9,6 @@
 
 #include <Windows.h>
 
-# include <MMSystem.h>
-
 #define __STDC_FORMAT_MACROS 1
 
 #define FAIL(X) throw std::runtime_error(X)
