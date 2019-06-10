@@ -27,7 +27,7 @@ c:\users\chh179\desktop\billiardvr\client\client.cpp(155): warning C4244: 'argum
 c:\users\chh179\desktop\billiardvr\client\client.cpp(163): warning C4305: 'argument': truncation from 'double' to 'irrklang::ik_f32'
 c:\users\chh179\desktop\billiardvr\client\client.cpp(169): warning C4244: 'argument': conversion from 'double' to 'irrklang::ik_f32', possible loss of data
   Generating code
-  1 of 2922 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  1 of 2913 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code

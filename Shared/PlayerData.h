@@ -4,7 +4,7 @@
 
 struct PlayerData
 {
-	int hit_volume;
+	float hit_volume;
 	bool pocketed;
 	float cue_hit;
 	glm::mat4 headPose;

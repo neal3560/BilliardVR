@@ -27,13 +27,8 @@ c:\users\chh179\desktop\billiardvr\server\server.cpp(193): warning C4305: '=': t
           ]
 c:\users\chh179\desktop\billiardvr\server\server.cpp(209): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 c:\users\chh179\desktop\billiardvr\server\server.cpp(246): warning C4305: '=': truncation from 'double' to 'float'
-c:\users\chh179\desktop\billiardvr\server\server.cpp(247): warning C4244: '=': conversion from 'const _Ty' to 'int', possible loss of data
-          with
-          [
-              _Ty=float
-          ]
   Generating code
-  51 of 2240 functions ( 2.3%) were compiled, the rest were copied from previous compilation.
+  51 of 2233 functions ( 2.3%) were compiled, the rest were copied from previous compilation.
     50 functions were new in current compilation
     1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
