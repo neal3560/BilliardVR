@@ -1,8 +1,8 @@
 ﻿  Server.cpp
   Generating code
-  196 of 2680 functions ( 7.3%) were compiled, the rest were copied from previous compilation.
-    193 functions were new in current compilation
-    496 functions had inline decision re-evaluated but remain unchanged
+  55 of 2680 functions ( 2.1%) were compiled, the rest were copied from previous compilation.
+    50 functions were new in current compilation
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
 rpc.lib(dispatcher.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(dispatcher.obj)' or at 'C:\Users\weh073\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
 rpc.lib(server.obj) : warning LNK4099: PDB 'rpc.pdb' was not found with 'rpc.lib(server.obj)' or at 'C:\Users\weh073\DESKTOP\BilliardVR\x64\Release\rpc.pdb'; linking object as if no debug info
