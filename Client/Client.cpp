@@ -152,13 +152,13 @@ ISoundEngine * bgm_engine = createIrrKlangDevice();
 	  if (playerData.hit_volume > 0) {
 		  
 		  ISound * soundobj = ball_engine->play2D("sound/ball_hit.wav",false,true,true); // create a sound obj intially paused
-		  soundobj->setVolume(playerData.hit_volume / 3.0); // volume between 0~1
+		  soundobj->setVolume(playerData.hit_volume / 3.0 * 0.8); // volume between 0~1 (0.8 because the original wav fle is lound)
 		  soundobj->setIsPaused(false);
 		
 	  }
 	  // pocket
 	  if (playerData.pocketed) {
-
+		  pocket_engine->stopAllSounds();
 		  ISound * soundobj = pocket_engine->play2D("sound/pocket.wav", false, true, true); // create a sound obj intially paused
 		  soundobj->setVolume(0.3); // volume between 0~1
 		  soundobj->setIsPaused(false);
@@ -166,7 +166,7 @@ ISoundEngine * bgm_engine = createIrrKlangDevice();
 	  // cue hit
 	  if (playerData.cue_hit > 0) {
 		  ISound * soundobj = cue_engine->play2D("sound/cue.wav", false, true, true); // create a sound obj intially paused
-		  soundobj->setVolume(playerData.cue_hit/3. * 0.7); // volume between 0~1 (0.7 because the original wav fle is lound)
+		  soundobj->setVolume(playerData.cue_hit/3.0 ); // volume between 0~1 
 		  soundobj->setIsPaused(false);
 	  }
 	 
