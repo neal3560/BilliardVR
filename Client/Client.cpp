@@ -20,7 +20,7 @@ ISoundEngine * wall_engine = createIrrKlangDevice();
 
   ExampleApp::ExampleApp()
   {
-	  client = new rpc::client("localhost", 3560);
+	  client = new rpc::client("128.54.70.74", 3560);
 	  std::cout << "Connected" << std::endl;
 
 	  right_hold = false;
