@@ -150,7 +150,7 @@ ISoundEngine * wall_engine = createIrrKlangDevice();
 	  
 	  ClientData2 data2;
 	  data2.cuePose = cue_pose;
-	  data2.hold = left_hand;
+	  data2.hold = right_hold;
 	  data2.hit = right_hold && left_hand;
 	  data2.cue_point = inverse(transf) * cue_pose * vec4(0.0f, CUELENGTH - HOLDPOINT, 0.0f, 1.0f);
 
@@ -341,7 +341,7 @@ void Scene::render(
 		head->Draw(shader, projection, view);
 		hand->toWorld = playerData.controllerPose[0] * hand_reflection * hand_transf;
 		hand->Draw(shader, projection, view);
-		hand->toWorld = playerData.controllerPose[1] * hand_reflection * hand_transf;
+		hand->toWorld = playerData.controllerPose[1] * hand_transf;
 		hand->Draw(shader, projection, view);
 		if (playerData2.hold) {
 			cue->toWorld = playerData2.cuePose * translate(mat4(1.0f), vec3(0.0f, -HOLDPOINT, 0.0f)) * scale(mat4(1.0f), vec3(0.0101f));
