@@ -85,7 +85,7 @@ void main()
 		vec2 UV = vec2(TC3.x,TC3.z);
 		fragColor = texture2D(texture_diffuse, UV);
 	}else if(mode == 4){
-		fragColor = vec4(1.0f, 1.0f, 1.0f, 0.0f);
+		fragColor = vec4(0.9f, 0.9f, 0.2f, 1.0f);
 	}
 	// for head render
 	else if (mode == 5){

@@ -28,7 +28,7 @@ public:
 				const mat4 controllerL, const mat4 controllerR,  const mat4 cue, 
 				const PlayerData &playerData, const PlayerData2 & playerData2, const int & ID,
 				vec3 * ball_pos, quat * ball_rot, bool * ball_on, 
-				bool hold_cue);
+				bool hold_cue, float targetRotation);
 
 	GLuint shader;
 
@@ -132,5 +132,7 @@ private:
 	// cue point
 	mat4 cue_point;
 
+	//auto rotate
+	float targetRotation;
 };
 #endif

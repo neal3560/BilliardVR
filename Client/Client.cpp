@@ -41,6 +41,8 @@ ISoundEngine * wall_engine = createIrrKlangDevice();
 	  state = 0;
 	  player_id = -1;
 
+	  targetRotation = 0;
+
   }
 
 
@@ -51,6 +53,7 @@ ISoundEngine * wall_engine = createIrrKlangDevice();
     glEnable(GL_DEPTH_TEST);
     ovr_RecenterTrackingOrigin(_session);
     scene = std::shared_ptr<Scene>(new Scene(transf));
+
 
 	waveOutSetVolume(NULL, 0xFFFFFFFF);
 	// bmg sound
@@ -216,6 +219,12 @@ ISoundEngine * wall_engine = createIrrKlangDevice();
 		  soundobj->setVolume(playerData2.cue_hit/3.0f ); // volume between 0~1 
 		  soundobj->setIsPaused(false);
 	  }
+
+	  // auto-rotate
+	  targetRotation += 3.14f * 0.0001f;
+	  if (targetRotation > 2 * 3.14f) {
+		  targetRotation -= 2 * 3.14f;
+	  }
   }
 
   void ExampleApp::renderScene(const glm::mat4& projection, const ovrPosef & eyePose)
@@ -227,7 +236,7 @@ ISoundEngine * wall_engine = createIrrKlangDevice();
 		  hand_pose[0], hand_pose[1], cue_pose,
 		  playerData, playerData2, player_id,
 		  ball_pos, ball_rot, ball_on,
-		  right_hold
+		  right_hold, targetRotation
 	  );
   } 
 
@@ -305,7 +314,7 @@ void Scene::render(
 	const mat4 controllerL, const mat4 controllerR, const mat4 cue_pose,
 	const PlayerData & playerData, const PlayerData2 & playerData2, const int & ID,
 	vec3 * ball_pos, quat * ball_rot, bool * ball_on,
-	bool hold_cue)
+	bool hold_cue, float targetRotation)
 {	
 	//lights
 	float lightransf[4 * NUMLIGHT];
@@ -419,19 +428,20 @@ void Scene::render(
 	}
 
 	//target ball
+	mat4 slowRotation = rotate(mat4(1.0f), targetRotation, vec3(0, 1, 0));
 	if (playerData.selected == -1) {
-		balls[1]->toWorld = transf * translate(mat4(1.0f), vec3(-1.0f, 1.0f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f));
+		balls[1]->toWorld = transf * translate(mat4(1.0f), vec3(-0.8f, 1.6f, 0.0f)) * scale(mat4(1.0f), vec3(0.2f)) * slowRotation;
 		balls[1]->Draw(shader, projection, view);
-		balls[9]->toWorld = transf * translate(mat4(1.0f), vec3(1.0f, 1.0f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f));
-		balls[9]->Draw(shader, projection, view);
+		balls[15]->toWorld = transf * translate(mat4(1.0f), vec3(0.8f, 1.6f, 0.0f)) * scale(mat4(1.0f), vec3(0.2f)) * slowRotation;
+		balls[15]->Draw(shader, projection, view);
 	}
 	else if (playerData.selected == ID) {
-		balls[1]->toWorld = transf * translate(mat4(1.0f), vec3(0.0f, 1.0f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f));
+		balls[1]->toWorld = transf * translate(mat4(1.0f), vec3(0.0f, 1.6f, 0.0f)) * scale(mat4(1.0f), vec3(0.2f)) * slowRotation;
 		balls[1]->Draw(shader, projection, view);
 	}
 	else {
-		balls[9]->toWorld = transf * translate(mat4(1.0f), vec3(0.0f, 1.0f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f));
-		balls[9]->Draw(shader, projection, view);
+		balls[15]->toWorld = transf * translate(mat4(1.0f), vec3(0.0f, 1.6f, 0.0f)) * scale(mat4(1.0f), vec3(0.2f)) * slowRotation;
+		balls[15]->Draw(shader, projection, view);
 	}
 	
 	// table fabric
