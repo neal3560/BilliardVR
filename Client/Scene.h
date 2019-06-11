@@ -26,7 +26,7 @@ public:
 	Scene(mat4 transf);
 	void render(const mat4& projection, const mat4& view, 
 				const mat4 controllerL, const mat4 controllerR,  const mat4 cue, 
-				const PlayerData &playerData, const PlayerData2 & playerData2,
+				const PlayerData &playerData, const PlayerData2 & playerData2, const int & ID,
 				vec3 * ball_pos, quat * ball_rot, bool * ball_on, 
 				bool hold_cue);
 
@@ -121,6 +121,7 @@ private:
 
 	bool right_hold;
 	bool left_hand;
+	bool left_index;
 
 	// player movement
 	vec3 player_translation;

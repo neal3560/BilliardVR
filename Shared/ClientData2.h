@@ -6,6 +6,7 @@ struct ClientData2
 {
 	glm::mat4 cuePose;
 	glm::vec4 cue_point;
+	bool put_cue;
 
 	bool hold;
 	bool hit;
@@ -18,6 +19,6 @@ struct ClientData2
 
 		// cue
 		cue_point.x, cue_point.y, cue_point.z, cue_point.w,
-		hold, hit
+		hold, hit, put_cue
 	)
 };

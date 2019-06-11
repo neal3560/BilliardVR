@@ -83,8 +83,8 @@ ISoundEngine * wall_engine = createIrrKlangDevice();
 	  ovrInputState inputState;
 	  ovr_GetInputState(_session, ovrControllerType_Touch, &inputState);
 
-	  // A button
-	  bool A = inputState.Buttons & ovrButton_A;
+	  // left index trigger
+	  left_index = inputState.IndexTrigger[ovrHand_Left] > 0.5f;
 
 	  // right hand trigger
 	  right_hold = inputState.HandTrigger[ovrHand_Right] > 0.5f && inputState.IndexTrigger[ovrHand_Right] > 0.5f;
@@ -152,6 +152,7 @@ ISoundEngine * wall_engine = createIrrKlangDevice();
 	  data.controllerPose[1] = hand_pose[1];
 	  
 	  ClientData2 data2;
+	  data2.put_cue = left_index;
 	  data2.cuePose = cue_pose;
 	  data2.hold = right_hold;
 	  data2.hit = right_hold && left_hand;
@@ -213,7 +214,7 @@ ISoundEngine * wall_engine = createIrrKlangDevice();
 	  // call render
 	  scene->render(projection, inverse(modelview),
 		  hand_pose[0], hand_pose[1], cue_pose,
-		  playerData, playerData2,
+		  playerData, playerData2, player_id,
 		  ball_pos, ball_rot, ball_on,
 		  right_hold
 	  );
@@ -291,7 +292,7 @@ Scene::Scene(mat4 transf)
 void Scene::render(
 	const mat4& projection, const mat4& view, 
 	const mat4 controllerL, const mat4 controllerR, const mat4 cue_pose,
-	const PlayerData & playerData, const PlayerData2 & playerData2,
+	const PlayerData & playerData, const PlayerData2 & playerData2, const int & ID,
 	vec3 * ball_pos, quat * ball_rot, bool * ball_on,
 	bool hold_cue)
 {	
@@ -311,6 +312,38 @@ void Scene::render(
 	//skybox
 	skybox->draw(shader, projection, view);
 
+	// render the controller
+	mat4 hand_transf = glm::rotate(mat4(1.0f), 3.14f * 0.5f, vec3(0, 1, 0)) * glm::rotate(mat4(1.0f), 3.14f, vec3(0, 0, 1)) * scale(mat4(1.0f), vec3(0.00228f));
+	mat4 hand_reflection = mat4(-1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+	hand->toWorld = controllerL * hand_reflection* hand_transf;
+	hand->Draw(shader, projection, view);
+	hand->toWorld = controllerR * hand_transf;
+	hand->Draw(shader, projection, view);
+
+	// render opponent when the other gamer join
+	if (playerData.state > 0) {
+		if (playerData2.hold) {
+			cue->toWorld = playerData2.cuePose * translate(mat4(1.0f), vec3(0.0f, -HOLDPOINT, 0.0f)) * scale(mat4(1.0f), vec3(0.0101f));
+			cue->Draw(shader, projection, view);
+		}
+		//opponent's head , controller and cue
+		glActiveTexture(GL_TEXTURE0 + 1);
+		glBindTexture(GL_TEXTURE_2D, head_face);
+		glUniform1i(glGetUniformLocation(shader, "texture_diffuse"), 1);
+		glActiveTexture(GL_TEXTURE0 + 2);
+		glBindTexture(GL_TEXTURE_2D, head_side);
+		glUniform1i(glGetUniformLocation(shader, "texture_specular"), 2);
+		glUniform1i(glGetUniformLocation(shader, "playerid"), (PLAYERID + 1) % 2);
+		face->toWorld = playerData.headPose * rotate(mat4(1.0f), 3.14f, vec3(0, 1, 0)) * scale(mat4(1.0f), vec3(0.1f));
+		face->mode = 5;
+		face->draw(shader, projection, view);
+
+		hand->toWorld = playerData.controllerPose[0] * hand_reflection * hand_transf;
+		hand->Draw(shader, projection, view);
+		hand->toWorld = playerData.controllerPose[1] * hand_transf;
+		hand->Draw(shader, projection, view);
+	}
+
 	//balls
 	glActiveTexture(GL_TEXTURE0 + 1);
 	glBindTexture(GL_TEXTURE_2D, diffuse_ball);
@@ -318,8 +351,23 @@ void Scene::render(
 	glBindTexture(GL_TEXTURE_2D, specular_ball);
 	glUniform1i(glGetUniformLocation(shader, "texture_diffuse"), 1);
 	glUniform1i(glGetUniformLocation(shader, "texture_specular"), 2);
+
+	// cue ball
+	if (playerData.cur_round == ID && playerData.state == 3) {
+		balls[0]->toWorld = controllerL * hand_transf;
+	}
+	else {
+		balls[0]->toWorld = transf
+			* translate(mat4(1.0f), ball_pos[0])
+			* toMat4(ball_rot[0])
+			* scale(mat4(1.0f), vec3(0.0114f));
+		if (ball_on[0]) {
+			balls[0]->Draw(shader, projection, view);
+		}
+	}
 	
-	for (int i = 0; i < NUMBALL; i++) {
+	// ball 1-15
+	for (int i = 1; i < NUMBALL; i++) {
 		balls[i]->toWorld = transf 
 			* translate(mat4(1.0f), ball_pos[i]) 
 			* toMat4(ball_rot[i])
@@ -335,36 +383,12 @@ void Scene::render(
 	glBindTexture(GL_TEXTURE_2D, specular_cue);
 	glUniform1i(glGetUniformLocation(shader, "texture_diffuse"), 1);
 	glUniform1i(glGetUniformLocation(shader, "texture_specular"), 2);
-
-	
-
 	if (hold_cue) {	
 		cue->toWorld = cue_pose * translate(mat4(1.0f), vec3(0.0f, -HOLDPOINT, 0.0f)) * scale(mat4(1.0f), vec3(0.0101f));
 		cue->Draw(shader, projection, view);
 	}
 
-	// render the controller
-	mat4 hand_transf = glm::rotate(mat4(1.0f), 3.14f * 0.5f, vec3(0, 1, 0)) * glm::rotate(mat4(1.0f), 3.14f, vec3(0, 0, 1)) * scale(mat4(1.0f), vec3(0.003f));
-	mat4 hand_reflection = mat4(-1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
-	hand->toWorld = controllerL * hand_reflection* hand_transf;
-	hand->Draw(shader, projection, view);
-	hand->toWorld = controllerR * hand_transf;
-	hand->Draw(shader, projection, view);
-
-	// render opponent when the other gamer join
-	if (playerData.state > 0) {
-		//opponent's head , controller and cue
-		head->toWorld = playerData.headPose * scale(mat4(1.0f), vec3(0.04f));
-		head->Draw(shader, projection, view);
-		hand->toWorld = playerData.controllerPose[0] * hand_reflection * hand_transf;
-		hand->Draw(shader, projection, view);
-		hand->toWorld = playerData.controllerPose[1] * hand_transf;
-		hand->Draw(shader, projection, view);
-		if (playerData2.hold) {
-			cue->toWorld = playerData2.cuePose * translate(mat4(1.0f), vec3(0.0f, -HOLDPOINT, 0.0f)) * scale(mat4(1.0f), vec3(0.0101f));
-			cue->Draw(shader, projection, view);
-		}
-	}
+	
 
 	// table fabric
 	glActiveTexture(GL_TEXTURE0 + 1);
@@ -381,17 +405,6 @@ void Scene::render(
 	glUniform1i(glGetUniformLocation(shader, "texture_diffuse"), 1);
 	floor->draw(shader, projection, view);
 
-	// head
-	glActiveTexture(GL_TEXTURE0 + 1);
-	glBindTexture(GL_TEXTURE_2D, head_face);
-	glUniform1i(glGetUniformLocation(shader, "texture_diffuse"), 1);
-	glActiveTexture(GL_TEXTURE0 + 2);
-	glBindTexture(GL_TEXTURE_2D, head_side);
-	glUniform1i(glGetUniformLocation(shader, "texture_specular"), 2);
-	glUniform1i(glGetUniformLocation(shader, "playerid"), (PLAYERID+1)%2 );
-	face->toWorld = playerData.headPose * scale(mat4(1.0f), vec3(0.1f));
-	face->mode = 5;
-	face->draw(shader, projection, view);
 
 	// table base
 	glActiveTexture(GL_TEXTURE0 + 1);
