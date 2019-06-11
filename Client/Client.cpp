@@ -323,6 +323,12 @@ void Scene::render(
 	//skybox
 	skybox->draw(shader, projection, view);
 
+	if (playerData.cur_round == ID) {
+		hand->mode = 4;
+	}
+	else {
+		hand->mode = 1;
+	}
 	// render the controller
 	mat4 hand_transf = glm::rotate(mat4(1.0f), 3.14f * 0.5f, vec3(0, 1, 0)) * glm::rotate(mat4(1.0f), 3.14f, vec3(0, 0, 1)) * scale(mat4(1.0f), vec3(0.00228f));
 	mat4 hand_reflection = mat4(-1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
@@ -361,6 +367,12 @@ void Scene::render(
 		face->mode = 5;
 		face->draw(shader, projection, view);
 
+		if (playerData.cur_round != ID) {
+			hand->mode = 4;
+		}
+		else {
+			hand->mode = 1;
+		}
 		hand->toWorld = playerData.controllerPose[0] * hand_reflection * hand_transf;
 		hand->Draw(shader, projection, view);
 		hand->toWorld = playerData.controllerPose[1] * hand_transf;
@@ -406,9 +418,6 @@ void Scene::render(
 		}
 	}
 	
-
-	
-
 	// table fabric
 	glActiveTexture(GL_TEXTURE0 + 1);
 	glBindTexture(GL_TEXTURE_2D, diffuse_fabric);
