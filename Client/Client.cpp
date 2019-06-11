@@ -221,7 +221,7 @@ ISoundEngine * wall_engine = createIrrKlangDevice();
 	  }
 
 	  // auto-rotate
-	  targetRotation += 3.14f * 0.0001f;
+	  targetRotation += 3.14f * 0.0003f;
 	  if (targetRotation > 2 * 3.14f) {
 		  targetRotation -= 2 * 3.14f;
 	  }
@@ -430,17 +430,17 @@ void Scene::render(
 	//target ball
 	mat4 slowRotation = rotate(mat4(1.0f), targetRotation, vec3(0, 1, 0));
 	if (playerData.selected == -1) {
-		balls[1]->toWorld = transf * translate(mat4(1.0f), vec3(-0.8f, 1.6f, 0.0f)) * scale(mat4(1.0f), vec3(0.2f)) * slowRotation;
+		balls[1]->toWorld = transf * translate(mat4(1.0f), vec3(-1.5f, 2.5f, 0.0f)) * scale(mat4(1.0f), vec3(0.25f)) * slowRotation;
 		balls[1]->Draw(shader, projection, view);
-		balls[15]->toWorld = transf * translate(mat4(1.0f), vec3(0.8f, 1.6f, 0.0f)) * scale(mat4(1.0f), vec3(0.2f)) * slowRotation;
+		balls[15]->toWorld = transf * translate(mat4(1.0f), vec3(1.5f, 2.5f, 0.0f)) * scale(mat4(1.0f), vec3(0.25f)) * slowRotation;
 		balls[15]->Draw(shader, projection, view);
 	}
 	else if (playerData.selected == ID) {
-		balls[1]->toWorld = transf * translate(mat4(1.0f), vec3(0.0f, 1.6f, 0.0f)) * scale(mat4(1.0f), vec3(0.2f)) * slowRotation;
+		balls[1]->toWorld = transf * translate(mat4(1.0f), vec3(0.0f, 2.5f, 0.0f)) * scale(mat4(1.0f), vec3(0.25f)) * slowRotation;
 		balls[1]->Draw(shader, projection, view);
 	}
 	else {
-		balls[15]->toWorld = transf * translate(mat4(1.0f), vec3(0.0f, 1.6f, 0.0f)) * scale(mat4(1.0f), vec3(0.2f)) * slowRotation;
+		balls[15]->toWorld = transf * translate(mat4(1.0f), vec3(0.0f, 2.5f, 0.0f)) * scale(mat4(1.0f), vec3(0.25f)) * slowRotation;
 		balls[15]->Draw(shader, projection, view);
 	}
 	

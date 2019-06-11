@@ -72,9 +72,9 @@ public:
 
 	//light
 	const float lightposn[NUMLIGHT * 4] = {
-		0.0f, 2.0f, 0.0f, 1.0f,
-		0.0f, 2.0f, 0.71f, 1.0f,
-		0.0f, 2.0f, -0.71f, 1.0f,
+		0.0f, 1.5f, 0.0f, 1.0f,
+		0.0f, 1.5f, 0.71f, 1.0f,
+		0.0f, 1.5f, -0.71f, 1.0f,
 	};
 	const float lightcolor[NUMLIGHT * 4] = {
 		0.7f, 0.7f, 0.7f, 1.0f,
