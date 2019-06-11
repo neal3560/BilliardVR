@@ -49,6 +49,8 @@ public:
 
 	Cube * floor;
 
+	Cube * face;
+
 
 	//texture
 	int diffuse_fabric;
@@ -64,6 +66,9 @@ public:
 	int specular_cue;
 
 	int diffuse_floor;
+
+	int head_face;
+	int head_side;
 
 	//light
 	const float lightposn[NUMLIGHT * 4] = {

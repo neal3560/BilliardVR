@@ -14,6 +14,7 @@ uniform samplerCube texture3d;
 
 uniform sampler2D texture_diffuse;
 uniform sampler2D texture_specular;
+uniform int playerid;
 
 // rendering mode
 uniform int mode;
@@ -85,6 +86,33 @@ void main()
 		fragColor = texture2D(texture_diffuse, UV);
 	}else if(mode == 4){
 		fragColor = vec4(1.0f, 1.0f, 1.0f, 0.0f);
+	}
+	// for head render
+	else if (mode == 5){
+		// face
+		if (TC3.z > 0.98){
+			vec2 UV = vec2(TC3.x * 0.5f + 0.5f, -(TC3.y * 0.5f + 0.5f) );
+			fragColor = texture2D(texture_diffuse, UV);
+		}
+		// sides
+		else if (TC3.x > 0.98 || TC3.x < -0.98){
+			vec2 UV = vec2(-(TC3.z * 0.5f + 0.5f), -(TC3.y * 0.5f + 0.5f) );
+			fragColor = texture2D(texture_specular, UV);
+		}
+		// hair
+		else if (TC3.y > 0.98 || TC3.z < -0.98){
+			if(playerid == 1){
+				fragColor = vec4(0.0f,0.0f,0.0f,1);
+			}
+			else{
+				fragColor = vec4(216.0f/256, 206.0f/256, 4.0f/256, 1); // neal
+			}
+		}
+		// neck
+		else{
+			fragColor = vec4(239.0f/256, 205.0f/256, 146.0f/256, 1);
+		}
+		
 	}
 
 }
