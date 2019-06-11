@@ -5,7 +5,7 @@
 using namespace std;
 using namespace irrklang;
 
-#define PLAYERID 0	 // OSCAR 1; NEAL 0
+#define PLAYERID 1	 // OSCAR 1; NEAL 0
 
 #define CUELENGTH 1.5f
 #define HOLDPOINT 0.33f
@@ -327,7 +327,7 @@ void Scene::render(
 		hand->mode = 4;
 	}
 	else {
-		hand->mode = 1;
+		hand->mode = 0;
 	}
 	// render the controller
 	mat4 hand_transf = glm::rotate(mat4(1.0f), 3.14f * 0.5f, vec3(0, 1, 0)) * glm::rotate(mat4(1.0f), 3.14f, vec3(0, 0, 1)) * scale(mat4(1.0f), vec3(0.00228f));
@@ -371,7 +371,7 @@ void Scene::render(
 			hand->mode = 4;
 		}
 		else {
-			hand->mode = 1;
+			hand->mode = 0;
 		}
 		hand->toWorld = playerData.controllerPose[0] * hand_reflection * hand_transf;
 		hand->Draw(shader, projection, view);
@@ -417,6 +417,22 @@ void Scene::render(
 			balls[i]->Draw(shader, projection, view);
 		}
 	}
+
+	//target ball
+	if (playerData.selected == -1) {
+		balls[1]->toWorld = transf * translate(mat4(1.0f), vec3(-1.0f, 1.0f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f));
+		balls[1]->Draw(shader, projection, view);
+		balls[9]->toWorld = transf * translate(mat4(1.0f), vec3(1.0f, 1.0f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f));
+		balls[9]->Draw(shader, projection, view);
+	}
+	else if (playerData.selected == ID) {
+		balls[1]->toWorld = transf * translate(mat4(1.0f), vec3(0.0f, 1.0f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f));
+		balls[1]->Draw(shader, projection, view);
+	}
+	else {
+		balls[9]->toWorld = transf * translate(mat4(1.0f), vec3(0.0f, 1.0f, 0.0f)) * scale(mat4(1.0f), vec3(0.1f));
+		balls[9]->Draw(shader, projection, view);
+	}
 	
 	// table fabric
 	glActiveTexture(GL_TEXTURE0 + 1);
@@ -442,7 +458,6 @@ void Scene::render(
 	glUniform1i(glGetUniformLocation(shader, "texture_diffuse"), 1);
 	glUniform1i(glGetUniformLocation(shader, "texture_specular"), 2);
 	base->Draw(shader, projection, view);
-
 }
 
 int main()
