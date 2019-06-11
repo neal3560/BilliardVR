@@ -92,6 +92,9 @@ ISoundEngine * wall_engine = createIrrKlangDevice();
 	  if (left_index_pre == 0 && new_index == 1){
 		  left_index = true;
 	  }
+	  else {
+		  left_index = 0;
+	  }
 	  left_index_pre = new_index;
 
 	  // right hand trigger
