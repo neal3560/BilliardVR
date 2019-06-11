@@ -5,10 +5,13 @@
 using namespace std;
 using namespace irrklang;
 
+#define PLAYERID 1	 // OSCAR 1; NEAL 0
+
 #define CUELENGTH 1.5f
 #define HOLDPOINT 0.33f
 #define MOVESTEP 0.008f
 #define ROTATESTEP 0.008f
+
 
 // sound engine. LEAVE IT HERE
 ISoundEngine * ball_engine = createIrrKlangDevice();
@@ -255,6 +258,8 @@ Scene::Scene(mat4 transf)
 	floor->mode = 3;
 	floor->toWorld = transf * translate(mat4(1.0f), vec3(0.0f, -0.92f, 0.0f)) * scale(mat4(1.0f), vec3(5.0f, 0.00002f, 5.0f));
 
+	face = new Cube();
+
 	// 10m wide sky box: size doesn't matter though
 	skybox = std::make_unique<Skybox>("skybox");
 	skybox->toWorld = glm::scale(glm::mat4(1.0f), glm::vec3(5.0f));
@@ -269,6 +274,18 @@ Scene::Scene(mat4 transf)
 	diffuse_cue = TextureFromFile("Cues_Diffuse.png", "texture");
 	specular_cue = TextureFromFile("Cues_Glossiness.png", "texture");
 	diffuse_floor = TextureFromFile("floor3.jpg", "texture");
+	// opponent player's head -- 
+	if (PLAYERID == 0) {
+		// opponent is oscar
+		head_face = TextureFromFile("front_1.png", "texture");
+		head_side = TextureFromFile("side_1.png", "texture");
+	}
+	else {
+		// opponent is neal
+		head_face = TextureFromFile("front_2.jpg", "texture");
+		head_side = TextureFromFile("side_2.png", "texture");
+	}
+
 }
 
 void Scene::render(
@@ -327,7 +344,7 @@ void Scene::render(
 	}
 
 	// render the controller
-	mat4 hand_transf = glm::rotate(mat4(1.0f), 3.14f * 0.5f, vec3(0, 1, 0)) * glm::rotate(mat4(1.0f), 3.14f, vec3(0, 0, 1)) * scale(mat4(1.0f), vec3(0.0022f));
+	mat4 hand_transf = glm::rotate(mat4(1.0f), 3.14f * 0.5f, vec3(0, 1, 0)) * glm::rotate(mat4(1.0f), 3.14f, vec3(0, 0, 1)) * scale(mat4(1.0f), vec3(0.003f));
 	mat4 hand_reflection = mat4(-1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 	hand->toWorld = controllerL * hand_reflection* hand_transf;
 	hand->Draw(shader, projection, view);
@@ -363,6 +380,18 @@ void Scene::render(
 	glBindTexture(GL_TEXTURE_2D, diffuse_floor);
 	glUniform1i(glGetUniformLocation(shader, "texture_diffuse"), 1);
 	floor->draw(shader, projection, view);
+
+	// head
+	glActiveTexture(GL_TEXTURE0 + 1);
+	glBindTexture(GL_TEXTURE_2D, head_face);
+	glUniform1i(glGetUniformLocation(shader, "texture_diffuse"), 1);
+	glActiveTexture(GL_TEXTURE0 + 2);
+	glBindTexture(GL_TEXTURE_2D, head_side);
+	glUniform1i(glGetUniformLocation(shader, "texture_specular"), 2);
+	glUniform1i(glGetUniformLocation(shader, "playerid"), (PLAYERID+1)%2 );
+	face->toWorld = playerData.headPose * scale(mat4(1.0f), vec3(0.1f));
+	face->mode = 5;
+	face->draw(shader, projection, view);
 
 	// table base
 	glActiveTexture(GL_TEXTURE0 + 1);
