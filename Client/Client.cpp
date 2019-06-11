@@ -35,6 +35,9 @@ ISoundEngine * wall_engine = createIrrKlangDevice();
 	  player_rotation = 0.0f;
 	  world_origin = vec3(0.0f);
 
+	  left_index = false;
+	  left_index_pre = false;
+
 	  state = 0;
 	  player_id = -1;
 
@@ -84,7 +87,12 @@ ISoundEngine * wall_engine = createIrrKlangDevice();
 	  ovr_GetInputState(_session, ovrControllerType_Touch, &inputState);
 
 	  // left index trigger
-	  left_index = inputState.IndexTrigger[ovrHand_Left] > 0.5f;
+	 
+	  bool new_index = inputState.IndexTrigger[ovrHand_Left] > 0.5f;
+	  if (left_index_pre == 0 && new_index == 1){
+		  left_index = true;
+	  }
+	  left_index_pre = new_index;
 
 	  // right hand trigger
 	  right_hold = inputState.HandTrigger[ovrHand_Right] > 0.5f && inputState.IndexTrigger[ovrHand_Right] > 0.5f;

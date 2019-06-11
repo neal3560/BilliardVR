@@ -121,6 +121,8 @@ private:
 
 	bool right_hold;
 	bool left_hand;
+
+	bool left_index_pre;
 	bool left_index;
 
 	// player movement
