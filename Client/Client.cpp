@@ -176,7 +176,7 @@ ISoundEngine * wall_engine = createIrrKlangDevice();
 	  /********************** Sound ****************************/
 	  if (playerData2.wall_hit > 0) {
 		  ISound * soundobj = wall_engine->play2D("sound/hit_wall.wav", false, true, true); // create a sound obj intially paused
-		  soundobj->setVolume(playerData2.wall_hit / 3.0f * 0.7f); // volume between 0~1 (0.7 because the original wav fle is lound)
+		  soundobj->setVolume(playerData2.wall_hit / 3.0f * 0.2f); // volume between 0~1 (0.7 because the original wav fle is lound)
 		  soundobj->setIsPaused(false);
 	  }
 	  // ball hit	
