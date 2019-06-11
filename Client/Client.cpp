@@ -5,7 +5,7 @@
 using namespace std;
 using namespace irrklang;
 
-#define PLAYERID 1	 // OSCAR 1; NEAL 0
+#define PLAYERID 0	 // OSCAR 1; NEAL 0
 
 #define CUELENGTH 1.5f
 #define HOLDPOINT 0.33f
