@@ -320,6 +320,18 @@ void Scene::render(
 	hand->toWorld = controllerR * hand_transf;
 	hand->Draw(shader, projection, view);
 
+	//cues
+	glActiveTexture(GL_TEXTURE0 + 1);
+	glBindTexture(GL_TEXTURE_2D, diffuse_cue);
+	glActiveTexture(GL_TEXTURE0 + 2);
+	glBindTexture(GL_TEXTURE_2D, specular_cue);
+	glUniform1i(glGetUniformLocation(shader, "texture_diffuse"), 1);
+	glUniform1i(glGetUniformLocation(shader, "texture_specular"), 2);
+	if (hold_cue) {
+		cue->toWorld = cue_pose * translate(mat4(1.0f), vec3(0.0f, -HOLDPOINT, 0.0f)) * scale(mat4(1.0f), vec3(0.0101f));
+		cue->Draw(shader, projection, view);
+	}
+
 	// render opponent when the other gamer join
 	if (playerData.state > 0) {
 		if (playerData2.hold) {
@@ -353,8 +365,14 @@ void Scene::render(
 	glUniform1i(glGetUniformLocation(shader, "texture_specular"), 2);
 
 	// cue ball
-	if (playerData.cur_round == ID && playerData.state == 3) {
-		balls[0]->toWorld = controllerL * hand_transf;
+	if (playerData.state == 3) {
+		if (playerData.cur_round == ID) {
+			balls[0]->toWorld = controllerL * scale(mat4(1.0f), vec3(0.0114f));
+		}
+		else {
+			balls[0]->toWorld = playerData.controllerPose[0] * scale(mat4(1.0f), vec3(0.0114f));
+		}	
+		balls[0]->Draw(shader, projection, view);
 	}
 	else {
 		balls[0]->toWorld = transf
@@ -376,17 +394,7 @@ void Scene::render(
 			balls[i]->Draw(shader, projection, view);
 		}
 	}
-	//cues
-	glActiveTexture(GL_TEXTURE0 + 1);
-	glBindTexture(GL_TEXTURE_2D, diffuse_cue);
-	glActiveTexture(GL_TEXTURE0 + 2);
-	glBindTexture(GL_TEXTURE_2D, specular_cue);
-	glUniform1i(glGetUniformLocation(shader, "texture_diffuse"), 1);
-	glUniform1i(glGetUniformLocation(shader, "texture_specular"), 2);
-	if (hold_cue) {	
-		cue->toWorld = cue_pose * translate(mat4(1.0f), vec3(0.0f, -HOLDPOINT, 0.0f)) * scale(mat4(1.0f), vec3(0.0101f));
-		cue->Draw(shader, projection, view);
-	}
+	
 
 	
 
